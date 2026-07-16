@@ -1,0 +1,677 @@
+{
+  "productId": "naphtha",
+  "product": "Naphtha",
+  "entityTab": "1. Distribution by Petrochem",
+  "entityName": "Distribution by Petrochem",
+  "formType": "Supplier",
+  "sourceFile": "Baseline Assessment_Market model_Naphtha_vF.xlsx",
+  "reportingUnit": "Thousand tonnes",
+  "years": [
+    2019,
+    2020,
+    2021,
+    2022,
+    2023,
+    2024,
+    2025,
+    2026,
+    2027,
+    2028,
+    2029,
+    2030
+  ],
+  "sections": [
+    {
+      "no": "1",
+      "title": "1. Supply: Naphtha import to the Emirate of Abu Dhabi",
+      "kind": "grid",
+      "columns": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027,
+        2028,
+        2029,
+        2030
+      ],
+      "forecastFromIdx": 6,
+      "rows": [
+        {
+          "label": "Total import",
+          "values": [
+            0.51,
+            0.53,
+            0.56,
+            0.59,
+            0.62,
+            0.65,
+            0.68,
+            0.72,
+            0.75,
+            0.79,
+            0.83,
+            0.87
+          ],
+          "mandatory": true
+        }
+      ]
+    },
+    {
+      "no": "1.1",
+      "title": "1.1 Import of Naphtha to the Emirate of Abu Dhabi",
+      "kind": "grid",
+      "columns": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027,
+        2028,
+        2029,
+        2030
+      ],
+      "forecastFromIdx": 6,
+      "rows": [
+        {
+          "label": "Petrochem",
+          "values": [
+            0.51,
+            0.53,
+            0.56,
+            0.59,
+            0.62,
+            0.65,
+            0.68,
+            0.72,
+            0.75,
+            0.79,
+            0.83,
+            0.87
+          ],
+          "mandatory": true
+        },
+        {
+          "label": "Others",
+          "values": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "mandatory": true
+        },
+        {
+          "label": "Total import",
+          "values": [
+            0.51,
+            0.53,
+            0.56,
+            0.59,
+            0.62,
+            0.65,
+            0.68,
+            0.72,
+            0.75,
+            0.79,
+            0.83,
+            0.87
+          ],
+          "auto": true
+        }
+      ],
+      "subSectors": [
+        "Annual average growth of manufacturing sector GDP (%)"
+      ],
+      "subSectorValues": [
+        "5%"
+      ]
+    },
+    {
+      "no": "2",
+      "title": "2. Demand: Naphtha volumes consumed from Distribution by Petrochem",
+      "kind": "grid",
+      "columns": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027,
+        2028,
+        2029,
+        2030
+      ],
+      "forecastFromIdx": 6,
+      "rows": [
+        {
+          "label": "Demand from your company (volumes)",
+          "values": [
+            0.51,
+            0.53,
+            0.56,
+            0.59,
+            0.62,
+            0.65,
+            0.68,
+            0.72,
+            0.75,
+            0.79,
+            0.83,
+            0.87
+          ],
+          "mandatory": true
+        }
+      ]
+    },
+    {
+      "no": "2.1",
+      "title": "2.1 Demand by region",
+      "kind": "grid",
+      "columns": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027,
+        2028,
+        2029,
+        2030
+      ],
+      "forecastFromIdx": 6,
+      "rows": [
+        {
+          "label": "Abu Dhabi City",
+          "values": [
+            0.51,
+            0.53,
+            0.56,
+            0.59,
+            0.62,
+            0.65,
+            0.68,
+            0.72,
+            0.75,
+            0.79,
+            0.83,
+            0.87
+          ],
+          "mandatory": true
+        },
+        {
+          "label": "Al Ain",
+          "values": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "mandatory": true
+        },
+        {
+          "label": "Al Dhafra",
+          "values": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "mandatory": true
+        },
+        {
+          "label": "Total demand from Distribution by Petrochem",
+          "values": [
+            0.51,
+            0.53,
+            0.56,
+            0.59,
+            0.62,
+            0.65,
+            0.68,
+            0.72,
+            0.75,
+            0.79,
+            0.83,
+            0.87
+          ],
+          "auto": true
+        }
+      ]
+    },
+    {
+      "no": "2.2",
+      "title": "2.2 Demand by segment",
+      "kind": "grid",
+      "columns": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027,
+        2028,
+        2029,
+        2030
+      ],
+      "forecastFromIdx": 6,
+      "rows": [
+        {
+          "label": "Residential",
+          "values": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "mandatory": true
+        },
+        {
+          "label": "Commercial",
+          "values": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "mandatory": true
+        },
+        {
+          "label": "Industrial",
+          "values": [
+            0.51,
+            0.53,
+            0.56,
+            0.59,
+            0.62,
+            0.65,
+            0.68,
+            0.72,
+            0.75,
+            0.79,
+            0.83,
+            0.87
+          ],
+          "mandatory": true
+        },
+        {
+          "label": "Total demand from Distribution by Petrochem",
+          "values": [
+            0.51,
+            0.53,
+            0.56,
+            0.59,
+            0.62,
+            0.65,
+            0.68,
+            0.72,
+            0.75,
+            0.79,
+            0.83,
+            0.87
+          ],
+          "auto": true
+        }
+      ],
+      "subSectors": [
+        "Residential sub-sector",
+        "Commercial sub-sector",
+        "Industrial sub-sector"
+      ],
+      "subSectorValues": [
+        "Villas and residential communities",
+        "Retail, hospitality and offices",
+        "Manufacturing, logistics and oil & gas"
+      ]
+    },
+    {
+      "no": "2.3",
+      "title": "2.3 Demand by segment and by region (volumes)",
+      "kind": "grid",
+      "columns": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027,
+        2028,
+        2029,
+        2030
+      ],
+      "forecastFromIdx": 6,
+      "regionGroups": [
+        {
+          "region": "Abu Dhabi City",
+          "segments": [
+            {
+              "label": "Residential",
+              "values": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "label": "Commercial",
+              "values": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "label": "Industrial",
+              "values": [
+                0.51,
+                0.53,
+                0.56,
+                0.59,
+                0.62,
+                0.65,
+                0.68,
+                0.72,
+                0.75,
+                0.79,
+                0.83,
+                0.87
+              ]
+            }
+          ]
+        },
+        {
+          "region": "Al Ain",
+          "segments": [
+            {
+              "label": "Residential",
+              "values": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "label": "Commercial",
+              "values": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "label": "Industrial",
+              "values": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            }
+          ]
+        },
+        {
+          "region": "Al Dhafra",
+          "segments": [
+            {
+              "label": "Residential",
+              "values": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "label": "Commercial",
+              "values": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "label": "Industrial",
+              "values": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            }
+          ]
+        }
+      ],
+      "rows": [],
+      "totalLabel": "Total volumes sold in the Emirate of Abu Dhabi"
+    },
+    {
+      "no": "2.4",
+      "title": "2.4 Seasonal trends",
+      "kind": "seasonal",
+      "columns": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027,
+        2028,
+        2029,
+        2030
+      ],
+      "forecastFromIdx": 6,
+      "rows": [],
+      "seasonalCategories": [
+        {
+          "label": "Volumes sold by Distribution by Petrochem in the Emirate of Abu Dhabi",
+          "qByYear": {
+            "2019": [
+              0.13,
+              0.13,
+              0.13,
+              0.13
+            ],
+            "2020": [
+              0.13,
+              0.13,
+              0.13,
+              0.13
+            ],
+            "2021": [
+              0.14,
+              0.14,
+              0.14,
+              0.14
+            ],
+            "2022": [
+              0.15,
+              0.15,
+              0.15,
+              0.15
+            ],
+            "2023": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "2024": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "2025": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "2026": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "2027": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "2028": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "2029": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "2030": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

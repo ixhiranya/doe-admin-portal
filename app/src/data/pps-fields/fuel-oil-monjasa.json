@@ -1,0 +1,625 @@
+{
+  "productId": "fuel_oil",
+  "product": "Fuel oil",
+  "entityTab": "1. Monjasa",
+  "entityName": "Monjasa",
+  "formType": "Supplier",
+  "sourceFile": "Baseline Assessment_Market model_Fuel oil_vF.xlsx",
+  "reportingUnit": "Thousand tonnes",
+  "years": [
+    2019,
+    2020,
+    2021,
+    2022,
+    2023,
+    2024,
+    2025,
+    2026,
+    2027,
+    2028,
+    2029,
+    2030
+  ],
+  "sections": [
+    {
+      "no": "1",
+      "title": "1. Fuel oil supply in the emirate of Abu Dhabi",
+      "kind": "grid",
+      "columns": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027,
+        2028,
+        2029,
+        2030
+      ],
+      "forecastFromIdx": 6,
+      "rows": [
+        {
+          "label": "Imports from other emirates in the UAE",
+          "values": [
+            10.15,
+            7.37,
+            27.95,
+            62.11,
+            260.26,
+            433.7,
+            308.71,
+            321.05,
+            333.9,
+            347.25,
+            361.14,
+            375.59
+          ],
+          "mandatory": true
+        },
+        {
+          "label": "Imports from other countries",
+          "values": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "mandatory": true
+        },
+        {
+          "label": "Total imports to the emirate of Abu Dhabi",
+          "values": [
+            10.15,
+            7.37,
+            27.95,
+            62.11,
+            260.26,
+            433.7,
+            308.71,
+            321.05,
+            333.9,
+            347.25,
+            361.14,
+            375.59
+          ],
+          "auto": true
+        },
+        {
+          "label": "Annual average growth rate of fuel oil supply in 2026 - 2030",
+          "values": [
+            0.04,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "mandatory": true
+        }
+      ]
+    },
+    {
+      "no": "2.1",
+      "title": "2.1 Fuel oil sales by segment and by region",
+      "kind": "grid",
+      "columns": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027,
+        2028,
+        2029,
+        2030
+      ],
+      "forecastFromIdx": 6,
+      "subSectors": [
+        "Residential sub-sector",
+        "Commercial sub-sector",
+        "Industrial sub-sector"
+      ],
+      "regionGroups": [
+        {
+          "region": "Abu Dhabi City",
+          "segments": [
+            {
+              "label": "Residential",
+              "values": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "label": "Commercial",
+              "values": [
+                10.15,
+                7.37,
+                27.95,
+                62.11,
+                258.47,
+                432.96,
+                308.71,
+                321.05,
+                333.9,
+                347.25,
+                361.14,
+                375.59
+              ]
+            },
+            {
+              "label": "Industrial",
+              "values": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            }
+          ]
+        },
+        {
+          "region": "Al Ain",
+          "segments": [
+            {
+              "label": "Residential",
+              "values": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "label": "Commercial",
+              "values": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "label": "Industrial",
+              "values": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            }
+          ]
+        },
+        {
+          "region": "Al Dhafra",
+          "segments": [
+            {
+              "label": "Residential",
+              "values": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "label": "Commercial",
+              "values": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                1.79,
+                0.73,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "label": "Industrial",
+              "values": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            }
+          ]
+        }
+      ],
+      "rows": [],
+      "totalLabel": "Total sales by your company in the emirate of Abu Dhabi",
+      "subSectorValues": [
+        "Villas and residential communities",
+        "Retail, hospitality and offices",
+        "Manufacturing, logistics and oil & gas"
+      ]
+    },
+    {
+      "no": "2.2",
+      "title": "2.2 Key customers in the emirate of Abu Dhabi",
+      "kind": "grid",
+      "columns": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027,
+        2028,
+        2029,
+        2030
+      ],
+      "forecastFromIdx": 6,
+      "rows": [],
+      "subSectors": [
+        "Residential sub-sector",
+        "Commercial sub-sector",
+        "Industrial sub-sector"
+      ],
+      "subSectorValues": [
+        "Residential housing communities",
+        "Emirates Transport, Etihad Airways, ADNOC Distribution",
+        "EGA, Emirates Steel, Borouge, Dolphin Energy"
+      ]
+    },
+    {
+      "no": "2.3",
+      "title": "2.3 Fuel oil sales by types",
+      "kind": "grid",
+      "columns": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027,
+        2028,
+        2029,
+        2030
+      ],
+      "forecastFromIdx": 6,
+      "rows": [
+        {
+          "label": "Very Low Sulfur Fuel Oil",
+          "values": [
+            0.0,
+            7.37,
+            27.55,
+            51.13,
+            167.43,
+            230.47,
+            138.02,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "mandatory": true
+        },
+        {
+          "label": "High Sulphur Fuel Oil",
+          "values": [
+            0.0,
+            0.0,
+            0.4,
+            10.98,
+            92.83,
+            203.23,
+            170.68,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "mandatory": true
+        },
+        {
+          "label": "Other fuel oil types (please specify)",
+          "values": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "mandatory": true
+        }
+      ]
+    },
+    {
+      "no": "2.4",
+      "title": "2.4 Key ports in the emirate of Abu Dhabi",
+      "kind": "qualitative",
+      "columns": [],
+      "forecastFromIdx": 0,
+      "rows": [],
+      "qualitative": {
+        "kind": "fields",
+        "fields": [
+          {
+            "label": "Please list all ports within the emirate of Abu Dhabi",
+            "multiline": true,
+            "value": "Khalifa Port\nMina Zayed\nZUKUM- OFFSHORE- ABU DHABI\nMUGHARRAQ ANCHORAGE - ABU DHABI PORT\nMUSSAFAH PORT-  ABU DHABI"
+          }
+        ]
+      }
+    },
+    {
+      "no": "2.5",
+      "title": "2.5 Key demand drivers",
+      "kind": "qualitative",
+      "columns": [],
+      "forecastFromIdx": 0,
+      "rows": [],
+      "qualitative": {
+        "kind": "table",
+        "columns": [
+          "Question",
+          "Answer",
+          "Rationale"
+        ],
+        "inputCols": [
+          false,
+          true,
+          true
+        ],
+        "rows": [
+          {
+            "cells": [
+              "Do you expect fuel oil consumption in the emirate of Abu Dhabi to increase, remain stable, or decrease over the next five years?",
+              "Remain stable",
+              "Marine bunkering demand is expected to hold steady as shipping activity remains broadly stable over the next five years."
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "no": "2.6",
+      "title": "2.6 Seasonal trends",
+      "kind": "seasonal",
+      "columns": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027,
+        2028,
+        2029,
+        2030
+      ],
+      "forecastFromIdx": 6,
+      "rows": [],
+      "seasonalCategories": [
+        {
+          "label": "Fuel oil sales from your company in the emirate of Abu Dhabi",
+          "qByYear": {
+            "2019": [
+              0.45,
+              3.66,
+              2.78,
+              3.27
+            ],
+            "2020": [
+              0.35,
+              3.35,
+              0.45,
+              3.22
+            ],
+            "2021": [
+              1.15,
+              2.82,
+              12.67,
+              11.31
+            ],
+            "2022": [
+              3.72,
+              4.47,
+              2.43,
+              51.49
+            ],
+            "2023": [
+              54.96,
+              67.76,
+              85.7,
+              51.84
+            ],
+            "2024": [
+              116.64,
+              151.92,
+              157.91,
+              7.23
+            ],
+            "2025": [
+              103.06,
+              244.77,
+              232.85,
+              338.18
+            ],
+            "2026": [
+              218.34,
+              518.58,
+              493.34,
+              716.49
+            ],
+            "2027": [
+              462.58,
+              1098.68,
+              1045.21,
+              1517.99
+            ],
+            "2028": [
+              980.05,
+              2327.72,
+              2214.43,
+              3216.09
+            ],
+            "2029": [
+              2076.38,
+              4931.61,
+              4691.59,
+              6813.77
+            ],
+            "2030": [
+              4399.12,
+              10448.36,
+              9939.84,
+              14435.99
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "no": "3",
+      "title": "3. Latest technological advancement in the fuel oil sector in the emirate of Abu Dhabi",
+      "kind": "qualitative",
+      "columns": [],
+      "forecastFromIdx": 0,
+      "rows": [],
+      "qualitative": {
+        "kind": "table",
+        "columns": [
+          "Area",
+          "Technological advancement",
+          "Implementation status"
+        ],
+        "inputCols": [
+          false,
+          true,
+          true
+        ],
+        "rows": [
+          {
+            "cells": [
+              "Safety",
+              "NIL - no requirements to HSEQ or quality control",
+              "Implemented"
+            ]
+          },
+          {
+            "cells": [
+              "Efficiency",
+              "Operating costs associated with operating in AUH making it less attactive for clients",
+              "In progress"
+            ]
+          },
+          {
+            "cells": [
+              "Environment",
+              "NIL - no requirements to HSEQ or quality control",
+              "Under evaluation"
+            ]
+          }
+        ],
+        "colWidths": [
+          "20%",
+          "50%",
+          "30%"
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,595 @@
+{
+  "productId": "jet_a1",
+  "product": "Jet fuel",
+  "entityTab": "01. ADNOC",
+  "entityName": "ADNOC",
+  "formType": "Supplier",
+  "sourceFile": "Baseline Assessment_Market model_Jet fuel_vF.xlsx",
+  "reportingUnit": "Thousand tonnes",
+  "years": [
+    2019,
+    2020,
+    2021,
+    2022,
+    2023,
+    2024,
+    2025,
+    2026,
+    2027,
+    2028,
+    2029,
+    2030
+  ],
+  "sections": [
+    {
+      "no": "1",
+      "title": "1. Supply: Jet fuel used for local market supply",
+      "kind": "grid",
+      "columns": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027,
+        2028,
+        2029,
+        2030
+      ],
+      "forecastFromIdx": 6,
+      "rows": [
+        {
+          "label": "Annual jet fuel volumes produced that are supplied to the Emirate of Abu Dhabi",
+          "values": [
+            1744.0,
+            1035.42,
+            302.19,
+            1134.91,
+            1478.86,
+            1775.95,
+            1915.18,
+            2176.54,
+            2394.19,
+            2633.61,
+            2896.97,
+            3186.67
+          ],
+          "mandatory": true
+        }
+      ]
+    },
+    {
+      "no": "2",
+      "title": "2. Demand: Jet fuel volumes consumed by ADNOC",
+      "kind": "grid",
+      "columns": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027,
+        2028,
+        2029,
+        2030
+      ],
+      "forecastFromIdx": 6,
+      "rows": [
+        {
+          "label": "Annual jet fuel volumes consumed in the Emirate of Abu Dhabi",
+          "values": [
+            1744.0,
+            1035.42,
+            302.19,
+            1134.91,
+            1478.86,
+            1775.95,
+            1915.18,
+            2176.54,
+            2394.19,
+            2633.61,
+            2896.97,
+            3186.67
+          ],
+          "mandatory": true
+        }
+      ]
+    },
+    {
+      "no": "2.1",
+      "title": "2.1 Demand by region",
+      "kind": "grid",
+      "columns": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027,
+        2028,
+        2029,
+        2030
+      ],
+      "forecastFromIdx": 6,
+      "rows": [
+        {
+          "label": "Abu Dhabi City",
+          "values": [
+            1729.21,
+            1027.75,
+            299.09,
+            1123.67,
+            1466.2,
+            1760.9,
+            1891.6,
+            2149.74,
+            2364.71,
+            2601.19,
+            2861.3,
+            3147.43
+          ],
+          "mandatory": true
+        },
+        {
+          "label": "Al Ain",
+          "values": [
+            14.79,
+            7.67,
+            3.1,
+            11.24,
+            12.66,
+            15.06,
+            23.58,
+            26.8,
+            29.48,
+            32.43,
+            35.67,
+            39.23
+          ],
+          "mandatory": true
+        },
+        {
+          "label": "Al Dhafra",
+          "values": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "mandatory": true
+        },
+        {
+          "label": "Total consumption from ADNOC",
+          "values": [
+            1744.0,
+            1035.42,
+            302.19,
+            1134.91,
+            1478.86,
+            1775.95,
+            1915.18,
+            2176.54,
+            2394.19,
+            2633.61,
+            2896.97,
+            3186.67
+          ],
+          "auto": true
+        }
+      ]
+    },
+    {
+      "no": "2.2",
+      "title": "2.2 Demand by segment",
+      "kind": "grid",
+      "columns": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027,
+        2028,
+        2029,
+        2030
+      ],
+      "forecastFromIdx": 6,
+      "rows": [
+        {
+          "label": "Residential",
+          "values": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "mandatory": true
+        },
+        {
+          "label": "Commercial",
+          "values": [
+            1744.0,
+            1035.42,
+            302.19,
+            1134.91,
+            1478.86,
+            1775.95,
+            1915.18,
+            2176.54,
+            2394.19,
+            2633.61,
+            2896.97,
+            3186.67
+          ],
+          "mandatory": true
+        },
+        {
+          "label": "Industrial",
+          "values": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "mandatory": true
+        },
+        {
+          "label": "Total consumption from ADNOC",
+          "values": [
+            1744.0,
+            1035.42,
+            302.19,
+            1134.91,
+            1478.86,
+            1775.95,
+            1915.18,
+            2176.54,
+            2394.19,
+            2633.61,
+            2896.97,
+            3186.67
+          ],
+          "auto": true
+        }
+      ],
+      "subSectors": [
+        "Residential sub-sector",
+        "Commercial sub-sector",
+        "Industrial sub-sector"
+      ],
+      "subSectorValues": [
+        "Villas and residential communities",
+        "Retail, hospitality and offices",
+        "Manufacturing, logistics and oil & gas"
+      ]
+    },
+    {
+      "no": "2.3",
+      "title": "2.3 Demand by segment and by region (volumes)",
+      "kind": "grid",
+      "columns": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027,
+        2028,
+        2029,
+        2030
+      ],
+      "forecastFromIdx": 6,
+      "regionGroups": [
+        {
+          "region": "Abu Dhabi City",
+          "segments": [
+            {
+              "label": "Residential",
+              "values": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "label": "Commercial",
+              "values": [
+                1729.21,
+                1027.75,
+                299.09,
+                1123.67,
+                1466.2,
+                1760.9,
+                1891.6,
+                2149.74,
+                2364.71,
+                2601.19,
+                2861.3,
+                3147.43
+              ]
+            },
+            {
+              "label": "Industrial",
+              "values": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            }
+          ]
+        },
+        {
+          "region": "Al Ain",
+          "segments": [
+            {
+              "label": "Residential",
+              "values": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "label": "Commercial",
+              "values": [
+                14.79,
+                7.67,
+                3.1,
+                11.24,
+                12.66,
+                15.06,
+                23.58,
+                26.8,
+                29.48,
+                32.43,
+                35.67,
+                39.23
+              ]
+            },
+            {
+              "label": "Industrial",
+              "values": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            }
+          ]
+        },
+        {
+          "region": "Al Dhafra",
+          "segments": [
+            {
+              "label": "Residential",
+              "values": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "label": "Commercial",
+              "values": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "label": "Industrial",
+              "values": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            }
+          ]
+        }
+      ],
+      "rows": [],
+      "totalLabel": "Total volumes consumed from ADNOC in the Emirate of Abu Dhabi"
+    },
+    {
+      "no": "2.4",
+      "title": "2.4 Seasonal trends",
+      "kind": "seasonal",
+      "columns": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027,
+        2028,
+        2029,
+        2030
+      ],
+      "forecastFromIdx": 6,
+      "rows": [],
+      "seasonalCategories": [
+        {
+          "label": "Volumes consumed from ADNOC in the Emirate of Abu Dhabi",
+          "qByYear": {
+            "2019": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "2020": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "2021": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "2022": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "2023": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "2024": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "2025": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "2026": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "2027": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "2028": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "2029": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "2030": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,172 @@
+/* Leaflet tile-map styles (required by react-leaflet).
+   CSS @import rules MUST come before any other directives/rules — placing
+   this after @tailwind caused PostCSS to drop it, which broke tile clipping
+   (overflow:hidden on .leaflet-container) and made the map render only a
+   strip of tiles. */
+@import 'leaflet/dist/leaflet.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── RTL polish ─────────────────────────────────────────────────────────
+   Maps render in absolute pixel space; keep them LTR even when the rest of
+   the document flips. Most layout flips come "for free" via the document's
+   dir attribute on flex/grid/Tailwind logical utilities. */
+html[dir='rtl'] .leaflet-container { direction: ltr; }
+html[dir='rtl'] .font-mono          { direction: ltr; unicode-bidi: isolate; }
+
+/* DoE map theming: tone down default Leaflet UI to match the dashboard */
+.leaflet-container {
+  font-family: inherit;
+  background: #E0EEF4;
+  /* Scope Leaflet's high internal z-indices (panes 400, markers 600,
+     tooltips 650, popups 700, controls 800) so they cannot escape the
+     map and overlap neighbouring UI (sticky headers, dropdowns, cards). */
+  isolation: isolate;
+}
+.leaflet-control-zoom a {
+  background: #fff !important;
+  color: #1F2937 !important;
+  border-color: #EDEDE8 !important;
+  font-weight: 600;
+}
+.leaflet-control-zoom a:hover { background: #F5F5F2 !important; }
+.leaflet-popup-content-wrapper {
+  background: #2E2A22; color: #fff; border-radius: 10px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.18);
+}
+.leaflet-popup-tip { background: #2E2A22; }
+.leaflet-popup-content { margin: 12px 14px; font-size: 12px; }
+.leaflet-control-attribution { font-size: 9px; opacity: 0.7; }
+
+:root {
+  --doe-red: #C8102E;
+  --doe-red-dark: #A00D24;
+  --action-orange: #E89B4C;
+  --action-orange-dark: #D08338;
+  --action-orange-soft: #FDF1E2;
+  --action-orange-deep: #B86E25;
+  --ink-950: #2E2A22;
+  --neutral-0: #FFFFFF;
+  --neutral-25: #FAFAF7;
+  --neutral-50: #F5F5F2;
+  --neutral-100: #EDEDE8;
+  --neutral-200: #D9D9D2;
+  --neutral-500: #6B7280;
+  --neutral-700: #4A5568;
+  --neutral-900: #1F2937;
+}
+
+html, body, #root { height: 100%; }
+body {
+  font-family: 'Inter', -apple-system, system-ui, sans-serif;
+  background: var(--neutral-25);
+  color: var(--neutral-900);
+  font-size: 14px;
+  line-height: 22px;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Hide spinners on number inputs */
+input[type='number']::-webkit-outer-spin-button,
+input[type='number']::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+input[type='number'] { -moz-appearance: textfield; }
+
+/* Custom scrollbar — subtle */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #D9D9D2; border-radius: 8px; border: 2px solid transparent; background-clip: padding-box; }
+::-webkit-scrollbar-thumb:hover { background: #B8B8B0; background-clip: padding-box; }
+
+/* Reusable utility classes */
+.field-label {
+  @apply block text-[12px] font-semibold uppercase tracking-wider text-neutral-500 mb-1.5;
+}
+.field-input {
+  @apply w-full px-3 py-2 text-[14px] bg-white border border-neutral-200 rounded-md text-neutral-900 placeholder-neutral-400 focus:outline-none focus:border-action-orange focus:ring-2 focus:ring-action-orange/20 transition;
+}
+.field-input:disabled, .field-input[readonly] { @apply bg-neutral-50 text-neutral-700 cursor-not-allowed; }
+.btn { @apply inline-flex items-center justify-center gap-2 px-4 py-2 rounded-md font-semibold text-[14px] transition disabled:opacity-50 disabled:cursor-not-allowed; }
+.btn-primary { @apply btn bg-action-orange text-white hover:bg-action-orange-dark shadow-doe-sm; }
+.btn-secondary { @apply btn bg-white border border-neutral-200 text-neutral-900 hover:bg-neutral-50; }
+.btn-success { @apply btn bg-success-500 text-white hover:opacity-90; }
+.btn-danger { @apply btn bg-danger-500 text-white hover:opacity-90; }
+.btn-warning { @apply btn bg-warning-500 text-white hover:opacity-90; }
+.btn-ghost { @apply btn text-neutral-700 hover:bg-neutral-100; }
+.card { @apply bg-white border border-neutral-100 rounded-xl shadow-doe-sm; }
+.chip {
+  @apply inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-semibold uppercase tracking-wider;
+}
+.chip-sm {
+  @apply inline-flex items-center gap-1 px-1.5 h-4 rounded-full text-[9.5px] font-semibold uppercase tracking-wider leading-none whitespace-nowrap;
+}
+
+/* Building 360 — Quick action buttons in the sidebar */
+.action-btn {
+  @apply flex items-center gap-2.5 px-2.5 py-2 rounded-lg bg-white border border-neutral-100 hover:bg-action-orange-soft hover:border-action-orange/30 hover:text-doe-red transition text-[12px] font-semibold text-ink-950;
+}
+.action-btn-badge {
+  @apply inline-grid place-items-center w-9 h-7 rounded-md font-mono text-[10px] font-bold tracking-wider;
+}
+
+/* Building 360 — Leaflet tooltip override (white card style instead of black) */
+.leaflet-tooltip.b360-tooltip {
+  background: #ffffff;
+  color: #2E2A22;
+  border: 1px solid #EDEDE8;
+  border-radius: 10px;
+  padding: 10px 12px;
+  box-shadow: 0 12px 32px rgba(31,41,55,0.12), 0 4px 8px rgba(31,41,55,0.06);
+  font-family: 'Inter', -apple-system, system-ui, sans-serif;
+  white-space: normal;
+}
+.leaflet-tooltip.b360-tooltip:before { display: none; }
+
+/* Building 360 — Popup white-card style (overrides global dark popup) */
+.leaflet-popup-content-wrapper:has(.b360-popup),
+.b360-popup-wrap .leaflet-popup-content-wrapper {
+  background: #ffffff;
+  color: #2E2A22;
+  border: 1px solid #EDEDE8;
+}
+.b360-popup-wrap .leaflet-popup-tip { background: #ffffff; }
+
+/* ─── Mobile simulator utilities ─────────────────────────────────────── */
+.scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+.scrollbar-hide::-webkit-scrollbar { display: none; }
+
+/* ─── SF Pro / Inter typography polish ──────────────────────────────────
+   SF Pro Display ships with Apple devices and switches to SF Pro Text at
+   smaller sizes; we mimic that with font-optical-sizing. Enable common
+   typographic features (kerning, calt, ss01) for tighter letterforms and
+   tabular figures inside data-dense surfaces. */
+/* IBM Plex pairs Latin (IBM Plex Sans) with a matching Arabic family
+   (IBM Plex Sans Arabic) so EN and AR share weights, x-height and proportions.
+   This is the TAMM-style government look. */
+:root {
+  --font-display: 'IBM Plex Sans', 'IBM Plex Sans Arabic', 'Inter Tight', 'Inter', sans-serif;
+  --font-text:    'IBM Plex Sans', 'IBM Plex Sans Arabic', 'Inter', 'Noto Sans Arabic', system-ui, sans-serif;
+  --font-mono:    'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace;
+}
+html, body {
+  font-family: var(--font-text);
+  font-feature-settings: 'kern' 1, 'liga' 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+.font-display { font-family: var(--font-display) !important; letter-spacing: -0.018em; }
+.font-sans    { font-family: var(--font-text)    !important; }
+.font-mono    { font-family: var(--font-mono)    !important; }
+.tabular-nums { font-variant-numeric: tabular-nums; }
+
+/* Arabic adjustments — Plex Arabic sits slightly higher than Latin; nudge
+   line-height a hair so large display headings don't look cramped. */
+html[dir='rtl'] .font-display { letter-spacing: 0; }
+html[dir='rtl'] body { line-height: 1.55; }
+
+/* RTL polish for the mobile simulator — flip chevrons and reverse the order
+   of certain flex rows so trailing chevrons sit on the leading edge. */
+html[dir='rtl'] .lucide-chevron-right,
+html[dir='rtl'] svg.rtl-mirror { transform: scaleX(-1); }
