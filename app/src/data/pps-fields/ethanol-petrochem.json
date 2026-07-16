@@ -1,0 +1,669 @@
+{
+  "productId": "ethanol",
+  "product": "Ethanol",
+  "entityTab": "1. Distrib. (Petrochem)",
+  "entityName": "Distribution (Petrochem)",
+  "formType": "Distributor",
+  "sourceFile": "Baseline Assessment_Market model_Ethanol_vF.xlsx",
+  "reportingUnit": "Thousand tonnes",
+  "years": [
+    2019,
+    2020,
+    2021,
+    2022,
+    2023,
+    2024,
+    2025,
+    2026,
+    2027,
+    2028,
+    2029,
+    2030
+  ],
+  "sections": [
+    {
+      "no": "1.1",
+      "title": "1.1 Source of ethanol supply by your company in the emirate of Abu Dhabi",
+      "kind": "grid",
+      "columns": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027,
+        2028,
+        2029,
+        2030
+      ],
+      "forecastFromIdx": 6,
+      "rows": [
+        {
+          "label": "Production in the emirate of Abu Dhabi",
+          "values": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "mandatory": true
+        },
+        {
+          "label": "Imports from other emirates / countries",
+          "values": [
+            0.51,
+            0.53,
+            0.56,
+            0.59,
+            0.62,
+            0.65,
+            0.68,
+            0.72,
+            0.75,
+            0.79,
+            0.83,
+            0.87
+          ],
+          "mandatory": true
+        },
+        {
+          "label": "Total supply to your company",
+          "values": [
+            0.51,
+            0.53,
+            0.56,
+            0.59,
+            0.62,
+            0.65,
+            0.68,
+            0.72,
+            0.75,
+            0.79,
+            0.83,
+            0.87
+          ],
+          "auto": true
+        }
+      ]
+    },
+    {
+      "no": "1.2",
+      "title": "1.2 Import of ethanol supplied to the emirate of Abu Dhabi",
+      "kind": "grid",
+      "columns": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027,
+        2028,
+        2029,
+        2030
+      ],
+      "forecastFromIdx": 6,
+      "rows": [
+        {
+          "label": "Import through Abu Dhabi ports",
+          "values": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "mandatory": true
+        },
+        {
+          "label": "Import from other emirates (e.g., Dubai, The Northern Emirates)",
+          "values": [
+            0.51,
+            0.53,
+            0.56,
+            0.59,
+            0.62,
+            0.65,
+            0.68,
+            0.72,
+            0.75,
+            0.79,
+            0.83,
+            0.87
+          ],
+          "mandatory": true
+        },
+        {
+          "label": "Total import of ethanol supplied to the emirate of Abu Dhabi",
+          "values": [
+            0.51,
+            0.53,
+            0.56,
+            0.59,
+            0.62,
+            0.65,
+            0.68,
+            0.72,
+            0.75,
+            0.79,
+            0.83,
+            0.87
+          ],
+          "auto": true
+        }
+      ],
+      "subSectors": [
+        "Expected average annual growth of import in 2020-2030 (%)"
+      ],
+      "subSectorValues": [
+        "4%"
+      ]
+    },
+    {
+      "no": "2",
+      "title": "2. Ethanol sales in the emirate of Abu Dhabi",
+      "kind": "grid",
+      "columns": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027,
+        2028,
+        2029,
+        2030
+      ],
+      "forecastFromIdx": 6,
+      "rows": [
+        {
+          "label": "Sales by your company in the emirate of Abu Dhabi",
+          "values": [
+            0.51,
+            0.53,
+            0.56,
+            0.59,
+            0.62,
+            0.65,
+            0.68,
+            0.72,
+            0.75,
+            0.79,
+            0.83,
+            0.87
+          ],
+          "mandatory": true
+        }
+      ]
+    },
+    {
+      "no": "2.1",
+      "title": "2.1 Ethanol sales by segment and by region",
+      "kind": "grid",
+      "columns": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027,
+        2028,
+        2029,
+        2030
+      ],
+      "forecastFromIdx": 6,
+      "subSectors": [
+        "Residential sub-sector",
+        "Commercial sub-sector",
+        "Industrial sub-sector"
+      ],
+      "regionGroups": [
+        {
+          "region": "Abu Dhabi City",
+          "segments": [
+            {
+              "label": "Residential",
+              "values": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "label": "Commercial",
+              "values": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "label": "Industrial",
+              "values": [
+                0.51,
+                0.53,
+                0.56,
+                0.59,
+                0.62,
+                0.65,
+                0.68,
+                0.72,
+                0.75,
+                0.79,
+                0.83,
+                0.87
+              ]
+            }
+          ]
+        },
+        {
+          "region": "Al Ain",
+          "segments": [
+            {
+              "label": "Residential",
+              "values": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "label": "Commercial",
+              "values": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "label": "Industrial",
+              "values": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            }
+          ]
+        },
+        {
+          "region": "Al Dhafra",
+          "segments": [
+            {
+              "label": "Residential",
+              "values": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "label": "Commercial",
+              "values": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            {
+              "label": "Industrial",
+              "values": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            }
+          ]
+        }
+      ],
+      "rows": [],
+      "totalLabel": "Total sales by your company in the emirate of Abu Dhabi",
+      "subSectorValues": [
+        "Villas and residential communities",
+        "Retail, hospitality and offices",
+        "Manufacturing, logistics and oil & gas"
+      ]
+    },
+    {
+      "no": "2.2",
+      "title": "2.2 Key customers in the emirate of Abu Dhabi",
+      "kind": "grid",
+      "columns": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027,
+        2028,
+        2029,
+        2030
+      ],
+      "forecastFromIdx": 6,
+      "rows": [],
+      "subSectors": [
+        "Residential sub-sector",
+        "Commercial sub-sector",
+        "Industrial sub-sector"
+      ],
+      "subSectorValues": [
+        "Residential housing communities",
+        "Emirates Transport, Etihad Airways, ADNOC Distribution",
+        "EGA, Emirates Steel, Borouge, Dolphin Energy"
+      ]
+    },
+    {
+      "no": "2.3",
+      "title": "2.3 Key demand drivers",
+      "kind": "qualitative",
+      "columns": [],
+      "forecastFromIdx": 0,
+      "rows": [],
+      "qualitative": {
+        "kind": "table",
+        "columns": [
+          "Question",
+          "Answer",
+          "Rationale"
+        ],
+        "colTypes": [
+          "label",
+          "select",
+          "text"
+        ],
+        "colOptions": [
+          null,
+          [
+            "Increase",
+            "Remain Stable",
+            "Decrease"
+          ],
+          null
+        ],
+        "colPlaceholders": [
+          null,
+          null,
+          "Please provide the rationale for the expected change in consumption over the next five years."
+        ],
+        "colWidths": [
+          "45%",
+          "20%",
+          "35%"
+        ],
+        "rows": [
+          {
+            "cells": [
+              "Do you expect ethanol consumption in the emirate of Abu Dhabi to increase, remain stable, or decrease over the next five years?",
+              "Increase",
+              "Federal sustainability mandates and fuel-blending targets are driving steady ethanol demand growth across transport and industry."
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "no": "2.4",
+      "title": "2.4 Seasonal trends",
+      "kind": "seasonal",
+      "columns": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026,
+        2027,
+        2028,
+        2029,
+        2030
+      ],
+      "forecastFromIdx": 6,
+      "rows": [],
+      "seasonalCategories": [
+        {
+          "label": "Sales from your company in the emirate of Abu Dhabi",
+          "qByYear": {
+            "2019": [
+              0.13,
+              0.13,
+              0.13,
+              0.13
+            ],
+            "2020": [
+              0.13,
+              0.13,
+              0.13,
+              0.13
+            ],
+            "2021": [
+              0.14,
+              0.14,
+              0.14,
+              0.14
+            ],
+            "2022": [
+              0.15,
+              0.15,
+              0.15,
+              0.15
+            ],
+            "2023": [
+              0.15,
+              0.15,
+              0.15,
+              0.15
+            ],
+            "2024": [
+              0.16,
+              0.16,
+              0.16,
+              0.16
+            ],
+            "2025": [
+              0.17,
+              0.17,
+              0.17,
+              0.17
+            ],
+            "2026": [
+              0.17,
+              0.17,
+              0.17,
+              0.17
+            ],
+            "2027": [
+              0.18,
+              0.18,
+              0.18,
+              0.18
+            ],
+            "2028": [
+              0.19,
+              0.19,
+              0.19,
+              0.19
+            ],
+            "2029": [
+              0.2,
+              0.2,
+              0.2,
+              0.2
+            ],
+            "2030": [
+              0.21,
+              0.21,
+              0.21,
+              0.21
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "no": "3",
+      "title": "3. Infrastructure details (existing and new infrastructure) in the emirate of Abu Dhabi",
+      "kind": "qualitative",
+      "columns": [],
+      "forecastFromIdx": 0,
+      "rows": [],
+      "description": "Please list the key ethanol infrastructure utilized by your company in the emirate of Abu Dhabi and provide details for each (e.g., manufacturing plants, trucks, ports, storages / warehouses).",
+      "qualitative": {
+        "kind": "table",
+        "columns": [
+          "Ethanol infrastructure type",
+          "Location",
+          "Capacity (unit)",
+          "Status",
+          "Notes"
+        ],
+        "inputCols": [
+          true,
+          true,
+          true,
+          true,
+          true
+        ],
+        "colWidths": [
+          "24%",
+          "18%",
+          "18%",
+          "16%",
+          "24%"
+        ],
+        "addable": true,
+        "rows": [
+          {
+            "cells": [
+              "Bulk storage terminal",
+              "Mussafah, Abu Dhabi",
+              "5,000 m\u00b3",
+              "Operational",
+              "Ethanol receipt and storage"
+            ]
+          },
+          {
+            "cells": [
+              "Tanker fleet",
+              "Abu Dhabi",
+              "12 road tankers",
+              "Operational",
+              "Last-mile distribution"
+            ]
+          },
+          {
+            "cells": [
+              "Blending facility",
+              "KEZAD, Abu Dhabi",
+              "2,000 m\u00b3",
+              "Under development",
+              "Commissioning planned 2026"
+            ]
+          }
+        ],
+        "addLabel": "Add Infrastructure"
+      }
+    }
+  ]
+}
