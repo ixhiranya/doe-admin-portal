@@ -85,6 +85,11 @@ import { MobileApp } from './pages/mobile/MobileApp';
 import { InspectionsListPage } from './pages/inspections/InspectionsListPage';
 import { InspectionDetailPage } from './pages/inspections/InspectionDetailPage';
 
+import { MasterDataPage } from './pages/admin/MasterDataPage';
+import { ConfigurationPage } from './pages/admin/ConfigurationPage';
+import { TemplateManagementPage } from './pages/admin/TemplateManagementPage';
+import { FormulaConfigurationPage } from './pages/admin/FormulaConfigurationPage';
+
 function Protected({ children }: { children: React.ReactNode }) {
   const user = useAuth((s) => s.user);
   return user ? <>{children}</> : <Navigate to="/login" replace />;
@@ -170,54 +175,60 @@ export default function App() {
         <Route path="gas-register/outflow/:outflowId" element={<OutflowDetailPage />} />
         <Route path="gas-register/gas-flow/reports" element={<GasFlowReportsPage />} />
         {/* ── BN 6: Drivers ── */}
-        <Route path="gas-register/drivers"                element={<DriversListPage />} />
-        <Route path="gas-register/drivers/:driverId"      element={<DriverDetailPage />} />
+        <Route path="gas-register/drivers" element={<DriversListPage />} />
+        <Route path="gas-register/drivers/:driverId" element={<DriverDetailPage />} />
         {/* ── BN 7: Engineers ── */}
-        <Route path="gas-register/engineers"              element={<EngineersListPage />} />
-        <Route path="gas-register/engineers/:engineerId"  element={<EngineerDetailPage />} />
+        <Route path="gas-register/engineers" element={<EngineersListPage />} />
+        <Route path="gas-register/engineers/:engineerId" element={<EngineerDetailPage />} />
         {/* ── BN 11: Fleet Movement ── */}
-        <Route path="gas-register/fleet-movement"             element={<FleetMovementListPage />} />
-        <Route path="gas-register/fleet-movement/new"         element={<FleetMovementCreatePage />} />
+        <Route path="gas-register/fleet-movement" element={<FleetMovementListPage />} />
+        <Route path="gas-register/fleet-movement/new" element={<FleetMovementCreatePage />} />
         <Route path="gas-register/fleet-movement/:movementId" element={<FleetMovementDetailPage />} />
         {/* ── BN 13: Connection & Disconnection ── */}
-        <Route path="gas-register/connection"             element={<ConnectionListPage />} />
-        <Route path="gas-register/connection/new"         element={<ConnectionCreatePage />} />
-        <Route path="gas-register/connection/:eventId"    element={<ConnectionDetailPage />} />
+        <Route path="gas-register/connection" element={<ConnectionListPage />} />
+        <Route path="gas-register/connection/new" element={<ConnectionCreatePage />} />
+        <Route path="gas-register/connection/:eventId" element={<ConnectionDetailPage />} />
         {/* ── BN 15: Maintenance ── */}
-        <Route path="gas-register/maintenance"            element={<MaintenanceListPage />} />
-        <Route path="gas-register/maintenance/new"        element={<MaintenanceCreatePage />} />
-        <Route path="gas-register/maintenance/:recordId"  element={<MaintenanceDetailPage />} />
+        <Route path="gas-register/maintenance" element={<MaintenanceListPage />} />
+        <Route path="gas-register/maintenance/new" element={<MaintenanceCreatePage />} />
+        <Route path="gas-register/maintenance/:recordId" element={<MaintenanceDetailPage />} />
         {/* ── BN 12: Company Registration · Notifications & Reminders ── */}
-        <Route path="gas-register/notifications"          element={<GasRegisterNotificationsPage />} />
+        <Route path="gas-register/notifications" element={<GasRegisterNotificationsPage />} />
         {/* ── BN 8: Technical Master Data — index + 5 sub-sections ── */}
-        <Route path="gas-register/technical-master-data"                element={<TechnicalMasterDataPage />} />
-        <Route path="gas-register/technical-master-data/gas-types"      element={<GasTypesPage />} />
-        <Route path="gas-register/technical-master-data/product-types"  element={<ProductTypesPage />} />
-        <Route path="gas-register/technical-master-data/units"          element={<UnitsPage />} />
-        <Route path="gas-register/technical-master-data/certificates"   element={<CertificatesPage />} />
-        <Route path="gas-register/technical-master-data/categories"     element={<CategoriesPage />} />
+        <Route path="gas-register/technical-master-data" element={<TechnicalMasterDataPage />} />
+        <Route path="gas-register/technical-master-data/gas-types" element={<GasTypesPage />} />
+        <Route path="gas-register/technical-master-data/product-types" element={<ProductTypesPage />} />
+        <Route path="gas-register/technical-master-data/units" element={<UnitsPage />} />
+        <Route path="gas-register/technical-master-data/certificates" element={<CertificatesPage />} />
+        <Route path="gas-register/technical-master-data/categories" element={<CategoriesPage />} />
         {/* ─── Compliance & Enforcement (Integrated Compliance, Violations,
              Enforcement and Escalation SDD) ─── */}
-        <Route path="compliance"                              element={<Navigate to="/compliance/dashboard" replace />} />
-        <Route path="compliance/dashboard"                    element={<ComplianceDashboardPage />} />
-        <Route path="compliance/violations"                   element={<ViolationsListPage />} />
-        <Route path="compliance/violations/:violationId"      element={<ViolationDetailPage />} />
-        <Route path="compliance/vap"                          element={<VapCommitteePage />} />
-        <Route path="compliance/vap/:meetingId"               element={<VapMeetingDetailPage />} />
-        <Route path="compliance/vap/:meetingId/minutes"       element={<VapMinutesPreviewPage />} />
+        <Route path="compliance" element={<Navigate to="/compliance/dashboard" replace />} />
+        <Route path="compliance/dashboard" element={<ComplianceDashboardPage />} />
+        <Route path="compliance/violations" element={<ViolationsListPage />} />
+        <Route path="compliance/violations/:violationId" element={<ViolationDetailPage />} />
+        <Route path="compliance/vap" element={<VapCommitteePage />} />
+        <Route path="compliance/vap/:meetingId" element={<VapMeetingDetailPage />} />
+        <Route path="compliance/vap/:meetingId/minutes" element={<VapMinutesPreviewPage />} />
         {/* ─── Mobile Inspection Submissions · web review (Doc 2 SDD §7) ─── */}
-        <Route path="inspections"                             element={<InspectionsListPage />} />
-        <Route path="inspections/:id"                         element={<InspectionDetailPage />} />
+        <Route path="inspections" element={<InspectionsListPage />} />
+        <Route path="inspections/:id" element={<InspectionDetailPage />} />
         {/* ─── Centralized PPS Dashboards (SDD §2 + §3) ─── */}
-        <Route path="pps-dashboard"                 element={<ExecutiveLandingPage />} />
-        <Route path="pps-dashboard/amc"             element={<AmcDashboardPage />} />
-        <Route path="pps-dashboard/noc"             element={<NocDashboardPage />} />
-        <Route path="pps-dashboard/coc"             element={<CocDashboardPage />} />
-        <Route path="pps-dashboard/maes"            element={<MaesDashboardPage />} />
-        <Route path="pps-dashboard/gas-companies"   element={<GasCompaniesDashboardPage />} />
-        <Route path="pps-dashboard/hoe"             element={<HoeDashboardPage />} />
-        <Route path="pps-dashboard/petroleum"       element={<PetroleumDashboardPage />} />
-        <Route path="pps-dashboard/inspections"     element={<InspectionsDashboardPage />} />
+        <Route path="pps-dashboard" element={<ExecutiveLandingPage />} />
+        <Route path="pps-dashboard/amc" element={<AmcDashboardPage />} />
+        <Route path="pps-dashboard/noc" element={<NocDashboardPage />} />
+        <Route path="pps-dashboard/coc" element={<CocDashboardPage />} />
+        <Route path="pps-dashboard/maes" element={<MaesDashboardPage />} />
+        <Route path="pps-dashboard/gas-companies" element={<GasCompaniesDashboardPage />} />
+        <Route path="pps-dashboard/hoe" element={<HoeDashboardPage />} />
+        <Route path="pps-dashboard/petroleum" element={<PetroleumDashboardPage />} />
+        <Route path="pps-dashboard/inspections" element={<InspectionsDashboardPage />} />
+
+        {/* ─── Admin Modules ─── */}
+        <Route path="admin/master-data" element={<MasterDataPage />} />
+        <Route path="admin/configuration" element={<ConfigurationPage />} />
+        <Route path="admin/template-management" element={<TemplateManagementPage />} />
+        <Route path="admin/formula-configuration" element={<FormulaConfigurationPage />} />
       </Route>
       <Route path="*" element={<PpsLanding />} />
     </Routes>
