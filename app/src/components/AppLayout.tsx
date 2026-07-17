@@ -157,27 +157,48 @@ export function AppLayout() {
               Petroleum Products Submissions
             </NavLink>
           ) : user.id === OMAR_ID ? (
-            // Omar Al Suwaidi (DoE PPS Approver): focused internal nav — three
-            // static top-level items, no mega-menu. Lands on the PPS Dashboard.
-            [
-              { to: '/pps/dashboard', label: 'PPS Dashboard' },
-              { to: '/pps/submissions', label: 'Submissions' },
-              { to: '/pps/monitoring', label: 'Submission Monitoring' },
-            ].map((it) => (
-              <NavLink
-                key={it.to}
-                to={it.to}
-                end={it.to === '/pps/dashboard'}
-                className={({ isActive }) => cn(
-                  'h-12 px-4 flex items-center text-[13px] font-semibold transition border-b-2',
-                  isActive
-                    ? 'border-action-orange text-white bg-white/5'
-                    : 'border-transparent text-white/85 hover:text-white hover:bg-white/5',
-                )}
-              >
-                {it.label}
-              </NavLink>
-            ))
+            <>
+              {[
+                { to: '/pps/dashboard', label: 'PPS Dashboard' },
+                { to: '/pps/submissions', label: 'Submissions' },
+                { to: '/pps/monitoring', label: 'Submission Monitoring' },
+              ].map((it) => (
+                <NavLink
+                  key={it.to}
+                  to={it.to}
+                  end={it.to === '/pps/dashboard'}
+                  className={({ isActive }) => cn(
+                    'h-12 px-4 flex items-center text-[13px] font-semibold transition border-b-2',
+                    isActive
+                      ? 'border-action-orange text-white bg-white/5'
+                      : 'border-transparent text-white/85 hover:text-white hover:bg-white/5',
+                  )}
+                >
+                  {it.label}
+                </NavLink>
+              ))}
+          
+              {/* Admin Modules — reuse the generic dropdown machinery for this one group */}
+              {(() => {
+                const adminGroup = MODULE_GROUPS.find((g) => g.id === 'admin-modules')!;
+                return (
+                  <div className="relative">
+                    <ModuleNavItem
+                      group={adminGroup}
+                      open={openMenu === adminGroup.id}
+                      onToggle={() => setOpenMenu(openMenu === adminGroup.id ? null : adminGroup.id)}
+                      onClose={() => setOpenMenu(null)}
+                      userModules={user.modules}
+                    />
+                    {openMenu === adminGroup.id && (
+                      <div className="absolute top-full left-0 z-40">
+                        <CompactDropdown groupId={adminGroup.id} onClose={() => setOpenMenu(null)} userModules={user.modules} />
+                      </div>
+                    )}
+                  </div>
+                );
+              })()}
+            </>
           ) : (
             MODULE_GROUPS.map((g) => (
               <div key={g.id} className="relative">
@@ -330,6 +351,18 @@ const MODULE_GROUPS: ModuleGroup[] = [
       { label: 'Inspection Submissions', description: 'Web review queue — co-sign Critical findings, return for clarification, approve, escalate to VAP.', tag: 'WEB · REVIEW',       href: '/inspections' },
     ],
   },
+  // Add this object into the MODULE_GROUPS array, e.g. after the 'mobile-inspection' group
+{
+  id: 'admin-modules',
+  label: 'Admin Modules',
+  hasMenu: true,
+  staticItems: [
+    { label: 'Master Data',            description: 'Central reference data shared across all services and modules.',        tag: 'ADMIN', href: '/admin/master-data' },
+    { label: 'Configuration',          description: 'System-wide settings, toggles, and environment configuration.',          tag: 'ADMIN', href: '/admin/configuration' },
+    { label: 'Template Management',    description: 'Manage document, email and notification templates.',                     tag: 'ADMIN', href: '/admin/template-management' },
+    { label: 'Formula Configuration',  description: 'Define and manage calculation formulas used across compliance & PPS.',    tag: 'ADMIN', href: '/admin/formula-configuration' },
+  ],
+},
 ];
 
 function ModuleNavItem({
@@ -357,6 +390,7 @@ function ModuleNavItem({
   if (group.id === 'gas-register' && location.pathname.startsWith('/gas-register')) isActive = true;
   if (group.id === 'compliance' && location.pathname.startsWith('/compliance')) isActive = true;
   if (group.id === 'mobile-inspection' && (location.pathname.startsWith('/inspections') || location.pathname.startsWith('/mobile'))) isActive = true;
+  if (group.id === 'admin-modules' && location.pathname.startsWith('/admin')) isActive = true;
 
   return (
     <button
