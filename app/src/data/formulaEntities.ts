@@ -1,106 +1,165 @@
 // src/data/formulaEntities.ts
 // ============================================================================
-// Catalog that powers the Visual Formula Builder:
-//   - the "Self" entity  → fields that live on the application/record the
-//     formula is being written for
-//   - "Cross" entities   → fields on related entities the formula can reach
-//     into (Company, Product, Facility/Asset, Inspection...)
-//   - operators & return types shown in the builder's dropdowns
-// This is deliberately static/mock data so the page works standalone; swap
-// for a real metadata API later without touching the builder UI.
+// Hard-coded catalog behind the Formula Configuration builder.
+//
+//   PRODUCT   — the 12 petroleum products (mirrors the PPS data model's
+//               PRODUCT master table)
+//   ENTITY    — companies that submit data (mirrors COMPANY master table)
+//   TEMPLATE  — one reusable form per (entity, product) pair, carrying its
+//               own list of fields (mirrors FORM_TEMPLATE + FORM_FIELD)
+//
+// A formula is always built "against" one base Template (chosen at the top
+// of the New Formula modal) — that template's fields are the "Self" fields.
+// Picking "Cross" lets the builder resolve a *different* template from an
+// Entity + Product combination and pull a field from there instead.
+// Swap this file for a real metadata API later without touching the UI.
 // ============================================================================
 
-import type { FieldRef, FormulaReturnType } from '../types/formula';
-
-export interface EntityDef {
-  id: string;
-  label: string;
-  fields: { id: string; label: string; dataType: FieldRef['dataType'] }[];
+export interface CatalogField {
+  id: string;      // field_code, e.g. 'imports'
+  label: string;    // label shown to users, e.g. 'Imports'
 }
 
-// The entity a formula is always "attached to" — e.g. the Application/Service
-// request record itself. Its fields need no entity prefix in the expression.
-export const SELF_ENTITY: EntityDef = {
-  id: 'application',
-  label: 'Application (Self)',
-  fields: [
-    { id: 'feeAmount',        label: 'Fee Amount',            dataType: 'number' },
-    { id: 'submissionDate',   label: 'Submission Date',       dataType: 'date' },
-    { id: 'expiryDate',       label: 'Expiry Date',           dataType: 'date' },
-    { id: 'daysOverdue',      label: 'Days Overdue',          dataType: 'number' },
-    { id: 'violationCount',   label: 'Violation Count',       dataType: 'number' },
-    { id: 'complianceScore',  label: 'Compliance Score',      dataType: 'number' },
-    { id: 'renewalCount',     label: 'Renewal Count',         dataType: 'number' },
-    { id: 'isCritical',       label: 'Is Critical Finding',   dataType: 'boolean' },
-  ],
-};
+export interface Product {
+  id: string;
+  name: string;
+}
 
-// Related entities a formula can cross into.
-export const CROSS_ENTITIES: EntityDef[] = [
+export interface Entity {
+  id: string;
+  name: string;
+}
+
+export interface Template {
+  id: string;         // e.g. 'TMP-001'
+  entityId: string;
+  productId: string;
+  name: string;        // e.g. 'Diesel — ADNOC Distribution'
+  fields: CatalogField[];
+}
+
+export const PRODUCTS: Product[] = [
+  { id: 'diesel',       name: 'Diesel' },
+  { id: 'lpg',          name: 'LPG' },
+  { id: 'natural_gas',  name: 'Natural Gas' },
+];
+
+export const ENTITIES: Entity[] = [
+  { id: 'adnoc_dist', name: 'ADNOC Distribution' },
+  { id: 'enoc',        name: 'ENOC' },
+  { id: 'grey_market', name: 'Grey Market' },
+  { id: 'emsteel',     name: 'EMSTEEL' },
+];
+
+export const TEMPLATES: Template[] = [
   {
-    id: 'company',
-    label: 'Company',
+    id: 'TMP-001',
+    entityId: 'adnoc_dist',
+    productId: 'diesel',
+    name: 'Diesel — ADNOC Distribution',
     fields: [
-      { id: 'legalStatus',            label: 'Legal Status',              dataType: 'text' },
-      { id: 'establishmentDate',      label: 'Establishment Date',        dataType: 'date' },
-      { id: 'tradePermitExpiryDate',  label: 'Trade Permit Expiry Date',  dataType: 'date' },
-      { id: 'riskRating',             label: 'Risk Rating',               dataType: 'number' },
+      { id: 'local_production',  label: 'Local Production / Transfer' },
+      { id: 'imports',           label: 'Imports' },
+      { id: 'total_supply',      label: 'Total Supply' },
+      { id: 'abu_dhabi_city',    label: 'Abu Dhabi City' },
+      { id: 'al_ain',            label: 'Al Ain' },
+      { id: 'al_dhafra',         label: 'Al Dhafra' },
+      { id: 'total_demand',      label: 'Total Demand' },
     ],
   },
   {
-    id: 'product',
-    label: 'Product',
+    id: 'TMP-002',
+    entityId: 'grey_market',
+    productId: 'diesel',
+    name: 'Diesel — Grey Market',
     fields: [
-      { id: 'unitPrice',        label: 'Unit Price',        dataType: 'number' },
-      { id: 'hazardClass',      label: 'Hazard Class',      dataType: 'text' },
-      { id: 'storageCapacity',  label: 'Storage Capacity',  dataType: 'number' },
+      { id: 'grey_imports',   label: 'Grey Market Imports' },
+      { id: 'grey_sales',     label: 'Grey Market Sales' },
+      { id: 'commercial',     label: 'Commercial' },
+      { id: 'residential',    label: 'Residential' },
     ],
   },
   {
-    id: 'facility',
-    label: 'Facility / Asset',
+    id: 'TMP-003',
+    entityId: 'adnoc_dist',
+    productId: 'lpg',
+    name: 'LPG — ADNOC Distribution',
     fields: [
-      { id: 'capacity',       label: 'Capacity',        dataType: 'number' },
-      { id: 'category',       label: 'Category',        dataType: 'text' },
-      { id: 'lastAuditScore', label: 'Last Audit Score', dataType: 'number' },
+      { id: 'cylinder_sales',   label: 'Cylinder Sales' },
+      { id: 'bulk_sales',       label: 'Bulk Sales' },
+      { id: 'total_lpg_supply', label: 'Total LPG Supply' },
     ],
   },
   {
-    id: 'inspection',
-    label: 'Inspection',
+    id: 'TMP-004',
+    entityId: 'enoc',
+    productId: 'diesel',
+    name: 'Diesel — ENOC',
     fields: [
-      { id: 'severityWeight', label: 'Severity Weight', dataType: 'number' },
-      { id: 'findingCount',   label: 'Finding Count',   dataType: 'number' },
-      { id: 'repeatOffence',  label: 'Repeat Offence',  dataType: 'boolean' },
+      { id: 'local_production',  label: 'Local Production / Transfer' },
+      { id: 'imports',           label: 'Imports' },
+      { id: 'total_supply',      label: 'Total Supply' },
+      { id: 'commercial',        label: 'Commercial' },
+    ],
+  },
+  {
+    id: 'TMP-005',
+    entityId: 'emsteel',
+    productId: 'natural_gas',
+    name: 'Natural Gas — EMSTEEL',
+    fields: [
+      { id: 'facility_consumption', label: 'Facility Consumption' },
+      { id: 'contracted_volume',    label: 'Contracted Volume' },
     ],
   },
 ];
 
-export const ALL_ENTITIES: EntityDef[] = [SELF_ENTITY, ...CROSS_ENTITIES];
-
-export const OPERATORS: { value: string; label: string; group: 'arithmetic' | 'comparison' | 'logical' }[] = [
-  { value: '+',   label: '+  Add',              group: 'arithmetic' },
-  { value: '-',   label: '−  Subtract',         group: 'arithmetic' },
-  { value: '*',   label: '×  Multiply',         group: 'arithmetic' },
-  { value: '/',   label: '÷  Divide',           group: 'arithmetic' },
-  { value: '==',  label: '=  Equals',           group: 'comparison' },
-  { value: '!=',  label: '≠  Not equals',       group: 'comparison' },
-  { value: '>',   label: '>  Greater than',     group: 'comparison' },
-  { value: '<',   label: '<  Less than',        group: 'comparison' },
-  { value: '>=',  label: '≥  Greater or equal',  group: 'comparison' },
-  { value: '<=',  label: '≤  Less or equal',     group: 'comparison' },
-  { value: 'AND', label: 'AND',                 group: 'logical' },
-  { value: 'OR',  label: 'OR',                  group: 'logical' },
+export const OPERATORS: { value: string; label: string }[] = [
+  { value: '+',   label: '+ Add' },
+  { value: '-',   label: '− Subtract' },
+  { value: '*',   label: '× Multiply' },
+  { value: '/',   label: '÷ Divide' },
+  { value: '==',  label: '= Equals' },
+  { value: '!=',  label: '≠ Not equal' },
+  { value: '>',   label: '> Greater than' },
+  { value: '<',   label: '< Less than' },
+  { value: '>=',  label: '≥ Greater or equal' },
+  { value: '<=',  label: '≤ Less or equal' },
+  { value: 'AND', label: 'AND' },
+  { value: 'OR',  label: 'OR' },
+  { value: '(',   label: '(' },
+  { value: ')',   label: ')' },
 ];
 
-export const RETURN_TYPES: { value: FormulaReturnType; label: string }[] = [
-  { value: 'number',     label: 'Number' },
-  { value: 'percentage', label: 'Percentage' },
-  { value: 'currency',   label: 'Currency' },
-  { value: 'boolean',    label: 'Boolean (Yes/No)' },
-  { value: 'text',       label: 'Text' },
+// Return type = the unit the formula's result is expressed in. Colors match
+// the chips shown in the list table's "Return Type (Unit)" column.
+export const RETURN_TYPES: { value: string; label: string; chipClass: string }[] = [
+  { value: 'kt',      label: 'kt (kilotonnes)',   chipClass: 'bg-sky-50 text-sky-700' },
+  { value: 'litres',  label: 'Litres',             chipClass: 'bg-violet-50 text-violet-700' },
+  { value: 'bnbtu',   label: 'BnBtu (Billion Btu)', chipClass: 'bg-emerald-50 text-emerald-700' },
+  { value: 'barrels', label: 'Barrels',             chipClass: 'bg-amber-50 text-amber-700' },
+  { value: 'pct',     label: 'Percentage',          chipClass: 'bg-rose-50 text-rose-700' },
+  { value: 'aed',     label: 'AED (Currency)',       chipClass: 'bg-neutral-100 text-neutral-700' },
 ];
 
-export function entityById(id: string): EntityDef | undefined {
-  return ALL_ENTITIES.find((e) => e.id === id);
+export function returnTypeMeta(value: string) {
+  return RETURN_TYPES.find((r) => r.value === value) ?? { value, label: value, chipClass: 'bg-neutral-100 text-neutral-700' };
+}
+
+export function templateById(id: string): Template | undefined {
+  return TEMPLATES.find((t) => t.id === id);
+}
+
+export function entityById(id: string): Entity | undefined {
+  return ENTITIES.find((e) => e.id === id);
+}
+
+export function productById(id: string): Product | undefined {
+  return PRODUCTS.find((p) => p.id === id);
+}
+
+// Resolve the single template for an (entity, product) pair — this is what
+// makes the Template ID field "reflect" once both Cross dropdowns are set.
+export function resolveTemplate(entityId: string, productId: string): Template | undefined {
+  return TEMPLATES.find((t) => t.entityId === entityId && t.productId === productId);
 }
