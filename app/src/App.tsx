@@ -88,6 +88,7 @@ import { InspectionDetailPage } from './pages/inspections/InspectionDetailPage';
 import { MasterDataPage } from './pages/admin/MasterDataPage';
 import { ConfigurationPage } from './pages/admin/ConfigurationPage';
 import { TemplateManagementPage } from './pages/admin/TemplateManagementPage';
+import { TemplateBuilderPage } from './pages/admin/TemplateBuilderPage';
 import { FormulaConfigurationPage } from './pages/admin/FormulaConfigurationPage';
 
 // function Protected({ children }: { children: React.ReactNode }) {
@@ -299,6 +300,7 @@ export default function App() {
         <Route path="admin/master-data/entity-group-members/:id/edit" element={<EntityGroupMemberFormPage mode="edit" />} />
         <Route path="admin/configuration" element={<ConfigurationPage />} />
         <Route path="admin/template-management" element={<TemplateManagementPage />} />
+        <Route path="admin/template-management/:id/builder" element={<TemplateBuilderPage />} />
         <Route path="admin/formula-configuration" element={<FormulaConfigurationPage />} />
       </Route>
       <Route path="*" element={<PpsLanding />} />
