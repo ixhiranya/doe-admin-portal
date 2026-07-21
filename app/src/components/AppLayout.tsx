@@ -359,7 +359,7 @@ const MODULE_GROUPS: ModuleGroup[] = [
   staticItems: [
     { label: 'Master Data',            description: 'Central reference data shared across all services and modules.',        tag: 'ADMIN', href: '/admin/master-data' },
     { label: 'Configuration',          description: 'System-wide settings, toggles, and environment configuration.',          tag: 'ADMIN', href: '/admin/configuration' },
-    { label: 'Template Management',    description: 'Manage document, email and notification templates.',                     tag: 'ADMIN', href: '/admin/template-management' },
+    { label: 'Template Management',    description: 'Build & version submission templates — drag-and-drop section/field editor.', tag: 'ADMIN', href: '/admin/template-management' },
     { label: 'Formula Configuration',  description: 'Define and manage calculation formulas used across compliance & PPS.',    tag: 'ADMIN', href: '/admin/formula-configuration' },
   ],
 },
