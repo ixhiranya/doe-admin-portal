@@ -90,10 +90,41 @@ import { ConfigurationPage } from './pages/admin/ConfigurationPage';
 import { TemplateManagementPage } from './pages/admin/TemplateManagementPage';
 import { FormulaConfigurationPage } from './pages/admin/FormulaConfigurationPage';
 
+// function Protected({ children }: { children: React.ReactNode }) {
+//   const user = useAuth((s) => s.user);
+//   return user ? <>{children}</> : <Navigate to="/login" replace />;
+// }
+//Master Data sub-module(Admin Modules->Master Data)
+import { ProductsListPage } from './pages/admin/masterdata/masterData/products/ProductsListPage';
+import { ProductFormPage } from './pages/admin/masterdata/masterData/products/ProductFormPage';
+import { ProductViewPage } from './pages/admin/masterdata/masterData/products/ProductViewPage';
+import { CompaniesListPage } from './pages/admin/masterdata/masterData/companies/CompaniesListPage';
+import { CompanyFormPage } from './pages/admin/masterdata/masterData/companies/CompanyFormPage';
+import { CompanyViewPage } from './pages/admin/masterdata/masterData/companies/CompanyViewPage';
+import { UomListPage } from './pages/admin/masterdata/masterData/uom/UomListPage';
+import { UomFormPage } from './pages/admin/masterdata/masterData/uom/UomFormPage';
+import { UomViewPage } from './pages/admin/masterdata/masterData/uom/UomViewPage';
+import { EntityTypesListPage } from './pages/admin/masterdata/masterData/entityTypes/EntityTypesListPage';
+import { EntityTypeFormPage } from './pages/admin/masterdata/masterData/entityTypes/EntityTypeFormPage';
+import { EntityTypeViewPage } from './pages/admin/masterdata/masterData/entityTypes/EntityTypeViewPage';
+import { RegionsListPage } from './pages/admin/masterdata/masterData/regions/RegionsListPage';
+import { RegionFormPage } from './pages/admin/masterdata/masterData/regions/RegionFormPage';
+import { RegionViewPage } from './pages/admin/masterdata/masterData/regions/RegionViewPage';
+import { SegmentsListPage } from './pages/admin/masterdata/masterData/segments/SegmentsListPage';
+import { SegmentFormPage } from './pages/admin/masterdata/masterData/segments/SegmentFormPage';
+import { SegmentViewPage } from './pages/admin/masterdata/masterData/segments/SegmentViewPage';
+import { EntityGroupsListPage } from './pages/admin/masterdata/masterData/entityGroups/EntityGroupsListPage';
+import { EntityGroupFormPage } from './pages/admin/masterdata/masterData/entityGroups/EntityGroupFormPage';
+import { EntityGroupViewPage } from './pages/admin/masterdata/masterData/entityGroups/EntityGroupViewPage';
+import { EntityGroupMembersListPage } from './pages/admin/masterdata/masterData/entityGroupMembers/EntityGroupMembersListPage';
+import { EntityGroupMemberFormPage } from './pages/admin/masterdata/masterData/entityGroupMembers/EntityGroupMemberFormPage';
+import { EntityGroupMemberViewPage } from './pages/admin/masterdata/masterData/entityGroupMembers/EntityGroupMemberViewPage';
+
 function Protected({ children }: { children: React.ReactNode }) {
   const user = useAuth((s) => s.user);
   return user ? <>{children}</> : <Navigate to="/login" replace />;
 }
+
 
 // Default landing — Ahmed Al Mazrouei (adnoc.dist.2) lands on Submissions;
 // everyone else on the centralized PPS dashboard.
@@ -226,6 +257,46 @@ export default function App() {
 
         {/* ─── Admin Modules ─── */}
         <Route path="admin/master-data" element={<MasterDataPage />} />
+        {/* Products */}
+        <Route path="admin/master-data/products" element={<ProductsListPage />} />
+        <Route path="admin/master-data/products/new" element={<ProductFormPage mode="create" />} />
+        <Route path="admin/master-data/products/:id" element={<ProductViewPage />} />
+        <Route path="admin/master-data/products/:id/edit" element={<ProductFormPage mode="edit" />} />
+        {/* Companies */}
+        <Route path="admin/master-data/companies" element={<CompaniesListPage />} />
+        <Route path="admin/master-data/companies/new" element={<CompanyFormPage mode="create" />} />
+        <Route path="admin/master-data/companies/:id" element={<CompanyViewPage />} />
+        <Route path="admin/master-data/companies/:id/edit" element={<CompanyFormPage mode="edit" />} />
+        {/* UOM */}
+        <Route path="admin/master-data/uom" element={<UomListPage />} />
+        <Route path="admin/master-data/uom/new" element={<UomFormPage mode="create" />} />
+        <Route path="admin/master-data/uom/:id" element={<UomViewPage />} />
+        <Route path="admin/master-data/uom/:id/edit" element={<UomFormPage mode="edit" />} />
+        {/* Entity Types */}
+        <Route path="admin/master-data/entity-types" element={<EntityTypesListPage />} />
+        <Route path="admin/master-data/entity-types/new" element={<EntityTypeFormPage mode="create" />} />
+        <Route path="admin/master-data/entity-types/:id" element={<EntityTypeViewPage />} />
+        <Route path="admin/master-data/entity-types/:id/edit" element={<EntityTypeFormPage mode="edit" />} />
+        {/* Regions */}
+        <Route path="admin/master-data/regions" element={<RegionsListPage />} />
+        <Route path="admin/master-data/regions/new" element={<RegionFormPage mode="create" />} />
+        <Route path="admin/master-data/regions/:id" element={<RegionViewPage />} />
+        <Route path="admin/master-data/regions/:id/edit" element={<RegionFormPage mode="edit" />} />
+        {/* Segments */}
+        <Route path="admin/master-data/segments" element={<SegmentsListPage />} />
+        <Route path="admin/master-data/segments/new" element={<SegmentFormPage mode="create" />} />
+        <Route path="admin/master-data/segments/:id" element={<SegmentViewPage />} />
+        <Route path="admin/master-data/segments/:id/edit" element={<SegmentFormPage mode="edit" />} />
+        {/* Entity Groups */}
+        <Route path="admin/master-data/entity-groups" element={<EntityGroupsListPage />} />
+        <Route path="admin/master-data/entity-groups/new" element={<EntityGroupFormPage mode="create" />} />
+        <Route path="admin/master-data/entity-groups/:id" element={<EntityGroupViewPage />} />
+        <Route path="admin/master-data/entity-groups/:id/edit" element={<EntityGroupFormPage mode="edit" />} />
+        {/* Entity Group Members */}
+        <Route path="admin/master-data/entity-group-members" element={<EntityGroupMembersListPage />} />
+        <Route path="admin/master-data/entity-group-members/new" element={<EntityGroupMemberFormPage mode="create" />} />
+        <Route path="admin/master-data/entity-group-members/:id" element={<EntityGroupMemberViewPage />} />
+        <Route path="admin/master-data/entity-group-members/:id/edit" element={<EntityGroupMemberFormPage mode="edit" />} />
         <Route path="admin/configuration" element={<ConfigurationPage />} />
         <Route path="admin/template-management" element={<TemplateManagementPage />} />
         <Route path="admin/formula-configuration" element={<FormulaConfigurationPage />} />
