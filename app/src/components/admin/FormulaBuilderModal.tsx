@@ -5,8 +5,12 @@ import {
   ENTITIES, PRODUCTS, TEMPLATES, OPERATORS, RETURN_TYPES,
   templateById, entityById, resolveTemplate,
 } from '../../data/formulaEntities';
-import { tokensToExpression, validateTokens, deriveFormulaType } from '../../lib/formula';
-import type { Formula, FormulaToken } from '../../types/formula';
+import {
+  tokensToExpression, validateTokens, deriveFormulaType,
+  validateExpressionString, deriveFormulaTypeFromExpression,
+} from '../../lib/formula';
+import { ExpressionEditor } from './ExpressionEditor';
+import type { Formula, FormulaInputType, FormulaToken } from '../../types/formula';
 
 let uid = 0;
 const nextId = () => `tok_${Date.now()}_${uid++}`;
@@ -32,8 +36,14 @@ export function FormulaBuilderModal({ nextFormulaId, onClose, onCreate }: Props)
   const [baseTemplateId, setBaseTemplateId] = useState('');
   const [description, setDescription] = useState('');
 
-  // ---- Expression tokens ------------------------------------------------
+  // ---- Input type: Visual Builder vs Expression Editor -------------------
+  const [inputType, setInputType] = useState<FormulaInputType>('visual');
+
+  // ---- Expression tokens (Visual Builder) --------------------------------
   const [tokens, setTokens] = useState<FormulaToken[]>([]);
+
+  // ---- Raw expression text (Expression Editor) ---------------------------
+  const [expressionText, setExpressionText] = useState('');
 
   // ---- Field-picker wizard state ----------------------------------------
   const [scope, setScope] = useState<Scope | null>(null);
@@ -97,9 +107,21 @@ export function FormulaBuilderModal({ nextFormulaId, onClose, onCreate }: Props)
     setTokens((t) => t.filter((tok) => tok.id !== id));
   }
 
-  const expression = useMemo(() => tokensToExpression(tokens), [tokens]);
-  const formulaType = useMemo(() => deriveFormulaType(tokens), [tokens]);
-  const expressionError = useMemo(() => validateTokens(tokens), [tokens]);
+  const selfEntityCode = baseTemplate ? entityById(baseTemplate.entityId)?.code : undefined;
+
+  const visualExpression = useMemo(() => tokensToExpression(tokens), [tokens]);
+  const visualType = useMemo(() => deriveFormulaType(tokens), [tokens]);
+  const visualError = useMemo(() => validateTokens(tokens), [tokens]);
+
+  const expressionTypeFromText = useMemo(
+    () => deriveFormulaTypeFromExpression(expressionText, selfEntityCode),
+    [expressionText, selfEntityCode],
+  );
+  const expressionTextError = useMemo(() => validateExpressionString(expressionText), [expressionText]);
+
+  const expression = inputType === 'visual' ? visualExpression : expressionText.trim();
+  const formulaType = inputType === 'visual' ? visualType : expressionTypeFromText;
+  const expressionError = inputType === 'visual' ? visualError : expressionTextError;
 
   const canSubmit = name.trim().length > 0 && code.trim().length > 0 && !!returnType && !!baseTemplateId && !expressionError;
 
@@ -113,7 +135,8 @@ export function FormulaBuilderModal({ nextFormulaId, onClose, onCreate }: Props)
       description: description.trim() || undefined,
       templateId: baseTemplateId,
       returnType,
-      tokens,
+      inputType,
+      tokens: inputType === 'visual' ? tokens : [],
       expression,
       type: formulaType,
       status: 'draft',
@@ -160,7 +183,7 @@ export function FormulaBuilderModal({ nextFormulaId, onClose, onCreate }: Props)
             <Field label="Template ID" required helper="Template determines available fields for Self/Cross selection.">
               <select
                 value={baseTemplateId}
-                onChange={(e) => { setBaseTemplateId(e.target.value); setScope(null); setTokens([]); }}
+                onChange={(e) => { setBaseTemplateId(e.target.value); setScope(null); setTokens([]); setExpressionText(''); }}
                 className="w-full px-2.5 h-10 border border-neutral-300 rounded-md text-[13px] bg-white focus:outline-none focus:ring-2 focus:ring-action-orange/40 focus:border-action-orange"
               >
                 <option value="">Select template</option>
@@ -169,8 +192,32 @@ export function FormulaBuilderModal({ nextFormulaId, onClose, onCreate }: Props)
             </Field>
           </div>
 
+          {/* Input type */}
+          <div className="mt-5 pt-4 border-t border-neutral-200">
+            <div className="text-[11px] font-bold uppercase tracking-wide text-neutral-500 mb-0.5">
+              Input Type <span className="text-red-500">*</span>
+            </div>
+            <div className="text-[11.5px] text-neutral-500 mb-2.5">Choose how you want to build the formula expression.</div>
+            <div className="flex gap-3">
+              <InputTypeCard
+                active={inputType === 'visual'}
+                onClick={() => { setInputType('visual'); setExpressionText(''); }}
+                icon={<VisualBuilderIcon />}
+                title="Visual Builder"
+                subtitle="Build formula using field selection and operators step-by-step."
+              />
+              <InputTypeCard
+                active={inputType === 'expression'}
+                onClick={() => { setInputType('expression'); setTokens([]); setScope(null); }}
+                icon={<CodeIcon />}
+                title="Expression Editor"
+                subtitle="Write and edit the formula expression manually with smart suggestions."
+              />
+            </div>
+          </div>
+
           {/* Self / Cross decision, or the active picker */}
-          {scope === null ? (
+          {inputType === 'visual' && (scope === null ? (
             <div className="mt-5 pt-4 border-t border-neutral-200">
               <div className="text-[11px] font-bold uppercase tracking-wide text-neutral-500 mb-2">Based on template</div>
               <label className="block text-[12px] font-bold text-ink-950 mb-2">
@@ -270,10 +317,37 @@ export function FormulaBuilderModal({ nextFormulaId, onClose, onCreate }: Props)
                 </>
               )}
             </div>
+          ))}
+
+          {/* Expression Editor (code-style, with $entity / .field autocomplete) */}
+          {inputType === 'expression' && (
+            <div className="mt-5 pt-4 border-t border-neutral-200">
+              <div className="text-[11px] font-bold uppercase tracking-wide text-neutral-500 mb-1">
+                Expression Editor <span className="text-red-500">*</span>
+              </div>
+              <div className="text-[11.5px] text-neutral-500 mb-2.5">
+                Type <code className="px-1 py-0.5 bg-neutral-100 rounded font-mono text-[11px]">$</code> to browse entities, then <code className="px-1 py-0.5 bg-neutral-100 rounded font-mono text-[11px]">.</code> to drill into product → template → field. Type operators (<code className="font-mono">+ - * / == AND OR</code> …) by hand.
+              </div>
+              <ExpressionEditor
+                value={expressionText}
+                onChange={setExpressionText}
+                entities={ENTITIES}
+                selfEntityId={baseTemplate?.entityId}
+              />
+              <div className="flex items-start gap-1.5 text-[11.5px] text-neutral-500 mt-2.5 bg-neutral-50 border border-neutral-200 rounded-md px-3 py-2">
+                <span className="shrink-0">💡</span>
+                <span>
+                  <span className="font-semibold text-ink-950">Tip:</span> Every reference needs all four segments — entity, product, template, field.
+                  <br />
+                  <span className="font-semibold text-ink-950">Example:</span> <code className="font-mono">$ADNOC.diesel.TMP-001.imports + $ENOC.diesel.TMP-004.imports</code>
+                </span>
+              </div>
+              {!baseTemplateId && <div className="text-[11.5px] text-neutral-400 mt-2">Select a Template ID above first — it determines your "Self" entity.</div>}
+            </div>
           )}
 
           {/* Operators */}
-          <div className="mt-5 pt-4 border-t border-neutral-200">
+          {inputType === 'visual' && <div className="mt-5 pt-4 border-t border-neutral-200">
             <div className="text-[11px] font-bold uppercase tracking-wide text-neutral-500 mb-2">Add an operator to continue the expression</div>
             <div className="flex flex-wrap gap-2">
               {OPERATORS.map((op) => (
@@ -299,10 +373,10 @@ export function FormulaBuilderModal({ nextFormulaId, onClose, onCreate }: Props)
                 </button>
               )}
             </div>
-          </div>
+          </div>}
 
           {/* Expression tokens (chips) */}
-          {tokens.length > 0 && (
+          {inputType === 'visual' && tokens.length > 0 && (
             <div className="mt-4">
               <div className="text-[11px] font-bold uppercase tracking-wide text-neutral-500 mb-1.5">Expression tokens</div>
               <div className="flex flex-wrap gap-1.5 border border-neutral-200 rounded-md p-2.5 bg-neutral-50">
@@ -310,15 +384,6 @@ export function FormulaBuilderModal({ nextFormulaId, onClose, onCreate }: Props)
               </div>
             </div>
           )}
-
-          {/* Description */}
-          <div className="mt-4">
-            <Field label="Description" helper="Shown to other admins in the list view.">
-              <textarea value={description} onChange={(e) => setDescription(e.target.value)} rows={3}
-                placeholder="What this formula calculates and where it's used…"
-                className="w-full px-3 py-2 border border-neutral-300 rounded-md text-[13px] focus:outline-none focus:ring-2 focus:ring-action-orange/40 focus:border-action-orange" />
-            </Field>
-          </div>
 
           {/* Expression preview */}
           <div className="mt-4">
@@ -330,7 +395,18 @@ export function FormulaBuilderModal({ nextFormulaId, onClose, onCreate }: Props)
               {expression ? <span className="text-ink-950">{expression}</span> : <span className="text-neutral-400">Expression will appear here as you build it</span>}
             </div>
             <div className="text-[11px] text-neutral-500 mt-1">The formula expression will be validated in the next step.</div>
-            {expressionError && tokens.length > 0 && <div className="text-[11px] text-red-600 mt-1">{expressionError}</div>}
+            {expressionError && (inputType === 'expression' ? expressionText.length > 0 : tokens.length > 0) && (
+              <div className="text-[11px] text-red-600 mt-1">{expressionError}</div>
+            )}
+          </div>
+
+          {/* Description */}
+          <div className="mt-4">
+            <Field label="Description" helper="Shown to other admins in the list view.">
+              <textarea value={description} onChange={(e) => setDescription(e.target.value)} rows={3}
+                placeholder="What this formula calculates and where it's used…"
+                className="w-full px-3 py-2 border border-neutral-300 rounded-md text-[13px] focus:outline-none focus:ring-2 focus:ring-action-orange/40 focus:border-action-orange" />
+            </Field>
           </div>
         </div>
 
@@ -361,6 +437,38 @@ function Field({ label, required, helper, children }: { label: string; required?
       {helper && <div className="text-[11px] text-neutral-500 mt-1">{helper}</div>}
     </div>
   );
+}
+
+function InputTypeCard({ active, onClick, icon, title, subtitle }: {
+  active: boolean; onClick: () => void; icon: React.ReactNode; title: string; subtitle: string;
+}) {
+  return (
+    <button onClick={onClick} type="button"
+      className={cn(
+        'flex-1 flex items-start gap-3 text-left px-4 py-3.5 rounded-lg border transition',
+        active ? 'border-action-orange bg-orange-50/50 ring-1 ring-action-orange/30' : 'border-neutral-200 hover:border-neutral-300',
+      )}>
+      <span className={cn('w-9 h-9 rounded-md grid place-items-center shrink-0', active ? 'bg-action-orange/10 text-action-orange' : 'bg-neutral-100 text-neutral-500')}>
+        {icon}
+      </span>
+      <span className="flex-1">
+        <div className="flex items-center justify-between gap-2">
+          <span className="text-[13.5px] font-bold text-ink-950">{title}</span>
+          <span className={cn('w-4 h-4 rounded-full border-2 shrink-0 grid place-items-center', active ? 'border-action-orange' : 'border-neutral-300')}>
+            {active && <span className="w-1.5 h-1.5 rounded-full bg-action-orange" />}
+          </span>
+        </div>
+        <div className="text-[11.5px] text-neutral-500 mt-0.5">{subtitle}</div>
+      </span>
+    </button>
+  );
+}
+
+function VisualBuilderIcon() {
+  return <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/><path d="M6.5 10v4a2 2 0 0 0 2 2H14"/></svg>;
+}
+function CodeIcon() {
+  return <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>;
 }
 
 function ScopeCard({ disabled, onClick, icon, iconBg, title, subtitle }: {

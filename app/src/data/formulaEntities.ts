@@ -28,6 +28,7 @@ export interface Product {
 export interface Entity {
   id: string;
   name: string;
+  code: string;   // short token used in expressions, e.g. 'ADNOC' -> $ADNOC.field
 }
 
 export interface Template {
@@ -45,10 +46,10 @@ export const PRODUCTS: Product[] = [
 ];
 
 export const ENTITIES: Entity[] = [
-  { id: 'adnoc_dist', name: 'ADNOC Distribution' },
-  { id: 'enoc',        name: 'ENOC' },
-  { id: 'grey_market', name: 'Grey Market' },
-  { id: 'emsteel',     name: 'EMSTEEL' },
+  { id: 'adnoc_dist', name: 'ADNOC Distribution', code: 'ADNOC' },
+  { id: 'enoc',        name: 'ENOC',              code: 'ENOC' },
+  { id: 'grey_market', name: 'Grey Market',        code: 'GREY_MKT' },
+  { id: 'emsteel',     name: 'EMSTEEL',            code: 'EMSTEEL' },
 ];
 
 export const TEMPLATES: Template[] = [
@@ -154,6 +155,22 @@ export function entityById(id: string): Entity | undefined {
   return ENTITIES.find((e) => e.id === id);
 }
 
+export function entityByCode(code: string): Entity | undefined {
+  return ENTITIES.find((e) => e.code.toLowerCase() === code.toLowerCase());
+}
+
+// All fields available on an entity, pooled across every template that
+// belongs to it (deduped by field id) — used by the Expression Editor's
+// "." autocomplete, which isn't scoped to a single product/template.
+export function fieldsForEntity(entityId: string): CatalogField[] {
+  const seen = new Map<string, CatalogField>();
+  for (const t of TEMPLATES) {
+    if (t.entityId !== entityId) continue;
+    for (const f of t.fields) if (!seen.has(f.id)) seen.set(f.id, f);
+  }
+  return [...seen.values()];
+}
+
 export function productById(id: string): Product | undefined {
   return PRODUCTS.find((p) => p.id === id);
 }
@@ -162,4 +179,17 @@ export function productById(id: string): Product | undefined {
 // makes the Template ID field "reflect" once both Cross dropdowns are set.
 export function resolveTemplate(entityId: string, productId: string): Template | undefined {
   return TEMPLATES.find((t) => t.entityId === entityId && t.productId === productId);
+}
+
+// Products this entity actually has a template for — powers the Expression
+// Editor's $entity.<product> autocomplete step.
+export function productsForEntity(entityId: string): Product[] {
+  const ids = new Set(TEMPLATES.filter((t) => t.entityId === entityId).map((t) => t.productId));
+  return PRODUCTS.filter((p) => ids.has(p.id));
+}
+
+// Template(s) matching an (entity, product) pair — usually just one, but
+// returned as a list so the editor stays correct if that ever changes.
+export function templatesFor(entityId: string, productId: string): Template[] {
+  return TEMPLATES.filter((t) => t.entityId === entityId && t.productId === productId);
 }
