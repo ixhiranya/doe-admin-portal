@@ -1,8 +1,9 @@
 // src/pages/admin/FormulaConfigurationPage.tsx
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { cn } from '../../lib/utils';
 import { FormulaBuilderModal } from '../../components/admin/FormulaBuilderModal';
+import { FormulaDetailsModal } from '../../components/admin/FormulaDetailsModal';
 import type { Formula } from '../../types/formula';
 import { returnTypeMeta } from '../../data/formulaEntities';
 
@@ -13,7 +14,7 @@ const SEED_FORMULAS: Formula[] = [
   {
     id: 'seed_1', formulaId: 'FML-1001', name: 'Total LPG Sales', code: 'FML_TOTAL_LPG',
     description: 'Sum of cylinder and bulk LPG sales for the reporting period.',
-    templateId: 'TMP-001', returnType: 'kt',
+    templateId: 'TMP-001', returnType: 'kt', inputType: 'visual',
     tokens: [
       { id: 't1', kind: 'field', scope: 'self', field: { fieldId: 'total_supply', fieldLabel: 'Total Supply' } },
     ],
@@ -23,7 +24,7 @@ const SEED_FORMULAS: Formula[] = [
   {
     id: 'seed_2', formulaId: 'FML-1002', name: 'Gasoline Import', code: 'FML_GAS_IMPORT',
     description: 'Cross-entity import volume pulled from the Grey Market diesel form.',
-    templateId: 'TMP-002', returnType: 'litres',
+    templateId: 'TMP-002', returnType: 'litres', inputType: 'visual',
     tokens: [
       { id: 't1', kind: 'field', scope: 'cross', field: { fieldId: 'grey_imports', fieldLabel: 'Grey Market Imports', entityLabel: 'Grey Market' } },
     ],
@@ -33,7 +34,7 @@ const SEED_FORMULAS: Formula[] = [
   {
     id: 'seed_3', formulaId: 'FML-1003', name: 'Diesel Consumption', code: 'FML_DIESEL_CONS',
     description: 'Total diesel demand across Abu Dhabi City, Al Ain and Al Dhafra.',
-    templateId: 'TMP-003', returnType: 'kt',
+    templateId: 'TMP-003', returnType: 'kt', inputType: 'visual',
     tokens: [
       { id: 't1', kind: 'field', scope: 'self', field: { fieldId: 'total_lpg_supply', fieldLabel: 'Total LPG Supply' } },
     ],
@@ -43,7 +44,7 @@ const SEED_FORMULAS: Formula[] = [
   {
     id: 'seed_4', formulaId: 'FML-1004', name: 'Natural Gas Supply', code: 'FML_NG_SUPPLY',
     description: 'Cross-entity contracted volume for EMSTEEL natural gas.',
-    templateId: 'TMP-004', returnType: 'bnbtu',
+    templateId: 'TMP-004', returnType: 'bnbtu', inputType: 'visual',
     tokens: [
       { id: 't1', kind: 'field', scope: 'cross', field: { fieldId: 'contracted_volume', fieldLabel: 'Contracted Volume', entityLabel: 'EMSTEEL' } },
     ],
@@ -53,12 +54,46 @@ const SEED_FORMULAS: Formula[] = [
   {
     id: 'seed_5', formulaId: 'FML-1005', name: 'Jet Fuel Distribution', code: 'FML_JET_DIST',
     description: 'Draft — distribution formula pending template finalisation.',
-    templateId: 'TMP-005', returnType: 'barrels',
+    templateId: 'TMP-005', returnType: 'barrels', inputType: 'visual',
     tokens: [
       { id: 't1', kind: 'field', scope: 'self', field: { fieldId: 'facility_consumption', fieldLabel: 'Facility Consumption' } },
     ],
     expression: 'facility_consumption', type: 'self', status: 'draft', enabled: true,
     updatedAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 20).toISOString(),
+  },
+  {
+    id: 'seed_6', formulaId: 'FML-1006', name: 'Local Production Share', code: 'FML_LOCAL_PROD_SHARE',
+    description: 'Local production as a share of total supply.',
+    templateId: 'TMP-001', returnType: 'pct', inputType: 'expression',
+    tokens: [],
+    expression: '$ADNOC.diesel.TMP-001.local_production', type: 'self', status: 'active', enabled: true,
+    updatedAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 8).toISOString(),
+  },
+  {
+    id: 'seed_7', formulaId: 'FML-1007', name: 'Cross-Entity Commercial Total', code: 'FML_CROSS_COMMERCIAL',
+    description: 'Combined commercial volume across ADNOC and ENOC diesel forms.',
+    templateId: 'TMP-004', returnType: 'kt', inputType: 'expression',
+    tokens: [],
+    expression: '$ADNOC.diesel.TMP-004.commercial + $ENOC.diesel.TMP-004.commercial', type: 'cross', status: 'active', enabled: true,
+    updatedAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 9).toISOString(),
+  },
+  {
+    id: 'seed_8', formulaId: 'FML-1008', name: 'Bulk to Cylinder Ratio', code: 'FML_BULK_CYL_RATIO',
+    description: 'Draft — ratio of bulk LPG sales to cylinder sales.',
+    templateId: 'TMP-003', returnType: 'pct', inputType: 'expression',
+    tokens: [],
+    expression: '$ADNOC.lpg.TMP-003.bulk_sales / $ADNOC.lpg.TMP-003.cylinder_sales', type: 'self', status: 'draft', enabled: false,
+    updatedAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 30).toISOString(),
+  },
+  {
+    id: 'seed_9', formulaId: 'FML-1009', name: 'Residential Demand (Grey Market)', code: 'FML_GREY_RESIDENTIAL',
+    description: 'Residential diesel demand reported under the Grey Market template.',
+    templateId: 'TMP-002', returnType: 'litres', inputType: 'visual',
+    tokens: [
+      { id: 't1', kind: 'field', scope: 'self', field: { fieldId: 'residential', fieldLabel: 'Residential' } },
+    ],
+    expression: 'residential', type: 'self', status: 'active', enabled: true,
+    updatedAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 1).toISOString(),
   },
 ];
 
@@ -67,6 +102,7 @@ export function FormulaConfigurationPage() {
   const [query, setQuery] = useState('');
   const [page, setPage] = useState(1);
   const [modalOpen, setModalOpen] = useState(false);
+  const [detailsFormula, setDetailsFormula] = useState<Formula | null>(null);
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -80,6 +116,13 @@ export function FormulaConfigurationPage() {
   const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
   const pageSafe = Math.min(page, totalPages);
   const pageRows = filtered.slice((pageSafe - 1) * PAGE_SIZE, pageSafe * PAGE_SIZE);
+
+  // Keep the `page` state itself in sync (not just the derived `pageSafe`
+  // used for rendering) so it can't drift out of range after filtering,
+  // deleting, etc.
+  useEffect(() => {
+    if (page !== pageSafe) setPage(pageSafe);
+  }, [page, pageSafe]);
 
   const activeCount = formulas.filter((f) => f.status === 'active').length;
   const draftCount = formulas.filter((f) => f.status === 'draft').length;
@@ -166,7 +209,11 @@ export function FormulaConfigurationPage() {
             {pageRows.map((f) => {
               const rt = returnTypeMeta(f.returnType);
               return (
-                <tr key={f.id} className={cn('hover:bg-neutral-25 transition', !f.enabled && 'opacity-50')}>
+                <tr
+                  key={f.id}
+                  onClick={() => setDetailsFormula(f)}
+                  className={cn('hover:bg-neutral-25 transition cursor-pointer', !f.enabled && 'opacity-50')}
+                >
                   <td className="px-5 py-3.5 font-mono text-[12.5px] text-ink-950 whitespace-nowrap">{f.formulaId}</td>
                   <td className="px-5 py-3.5 text-ink-950 font-medium whitespace-nowrap">{f.name}</td>
                   <td className="px-5 py-3.5 font-mono text-[12px] text-neutral-500 whitespace-nowrap">{f.code}</td>
@@ -184,8 +231,10 @@ export function FormulaConfigurationPage() {
                     </span>
                   </td>
                   <td className="px-5 py-3.5">
-                    <button onClick={() => toggleEnabled(f.id)} role="switch" aria-checked={f.enabled} title="Toggle to enable/disable (soft delete)"
-                      className={cn('relative w-10 h-5.5 rounded-full transition', f.enabled ? 'bg-sky-500' : 'bg-neutral-300')}
+                    <button
+                      onClick={(e) => { e.stopPropagation(); toggleEnabled(f.id); }}
+                      role="switch" aria-checked={f.enabled} title="Toggle to enable/disable (soft delete)"
+                      className={cn('relative w-10 rounded-full transition', f.enabled ? 'bg-sky-500' : 'bg-neutral-300')}
                       style={{ height: '22px' }}>
                       <span className={cn('absolute top-[3px] w-4 h-4 rounded-full bg-white shadow transition-all', f.enabled ? 'left-[21px]' : 'left-[3px]')} />
                     </button>
@@ -223,6 +272,13 @@ export function FormulaConfigurationPage() {
           nextFormulaId={nextFormulaId()}
           onClose={() => setModalOpen(false)}
           onCreate={handleCreate}
+        />
+      )}
+
+      {detailsFormula && (
+        <FormulaDetailsModal
+          formula={detailsFormula}
+          onClose={() => setDetailsFormula(null)}
         />
       )}
     </div>

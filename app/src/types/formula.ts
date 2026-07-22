@@ -5,6 +5,11 @@
 
 export type FormulaStatus = 'active' | 'draft';
 
+// Which builder was used to author the expression. 'visual' formulas keep
+// their structured token list; 'expression' formulas are authored as raw
+// text via the code-style editor ($Entity.field + $Entity.field, etc.).
+export type FormulaInputType = 'visual' | 'expression';
+
 // A field the builder inserted into the expression.
 export interface FieldRef {
   fieldId: string;         // e.g. 'imports'
@@ -25,7 +30,8 @@ export interface Formula {
   description?: string;
   templateId: string;        // base template this formula is built against
   returnType: string;         // unit value, e.g. 'kt' — see RETURN_TYPES
-  tokens: FormulaToken[];
+  inputType: FormulaInputType; // 'visual' | 'expression'
+  tokens: FormulaToken[];    // populated for 'visual'; empty for 'expression'
   expression: string;          // cached human-readable rendering of tokens
   type: 'self' | 'cross';       // auto-derived from tokens
   status: FormulaStatus;
