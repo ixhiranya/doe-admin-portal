@@ -45,8 +45,11 @@ type ExprTok = { type: 'ref' | 'number' | 'op' | 'lparen' | 'rparen'; text: stri
 
 const REF_RE = /^\$[A-Za-z0-9_]+(?:\.[A-Za-z0-9_-]+)*/;
 const NUM_RE = /^\d+(\.\d+)?/;
-// Longest-match-first so '>=' wins over '>', etc.
-const OPS = ['>=', '<=', '==', '!=', 'AND', 'OR', '+', '-', '*', '/', '>', '<'];
+// Longest-match-first so '>=' wins over '>', etc. Exported so the editor's
+// live auto-spacing logic (insert/collapse a single space around operators
+// and '$') uses exactly the same operator vocabulary as validation.
+export const EXPRESSION_OPERATORS = ['>=', '<=', '==', '!=', 'AND', 'OR', '+', '-', '*', '/', '>', '<'];
+const OPS = EXPRESSION_OPERATORS;
 
 function tokenizeExpression(src: string): ExprTok[] | null {
   const toks: ExprTok[] = [];
@@ -85,25 +88,25 @@ function tokenizeExpression(src: string): ExprTok[] | null {
 }
 
 // Full structural + operator-placement check for the free-typed expression:
-//  - every $ref must be a complete $entity.product.template.field path
+//  - every $ref must be a complete $entity.product.field path
 //  - parentheses must balance
 //  - an operator must sit between two values — never at the start, the end,
 //    or back-to-back with another operator
 export function validateExpressionString(expression: string): string | null {
   const trimmed = expression.trim();
-  if (!trimmed) return 'Write an expression, e.g. $ADNOC.diesel.TMP-001.imports + $ENOC.diesel.TMP-004.imports.';
+  if (!trimmed) return 'Write an expression, e.g. $ADNOC.diesel.imports + $ENOC.diesel.imports.';
 
   const tokens = tokenizeExpression(trimmed);
   if (!tokens || tokens.length === 0) {
-    return 'Finish the reference — expected $entity.product.template.field.';
+    return 'Finish the reference — expected $entity.product.field.';
   }
 
   let depth = 0;
   let expectValue = true; // true = next token must be a value (ref/number/lparen); false = operator/rparen
 
   for (const t of tokens) {
-    if (t.type === 'ref' && t.text.slice(1).split('.').length !== 4) {
-      return `Finish the reference "${t.text}" — expected $entity.product.template.field.`;
+    if (t.type === 'ref' && t.text.slice(1).split('.').length !== 3) {
+      return `Finish the reference "${t.text}" — expected $entity.product.field.`;
     }
     if (t.type === 'lparen') {
       if (!expectValue) return 'Add an operator before "(".';

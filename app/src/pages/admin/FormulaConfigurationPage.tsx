@@ -66,7 +66,7 @@ const SEED_FORMULAS: Formula[] = [
     description: 'Local production as a share of total supply.',
     templateId: 'TMP-001', returnType: 'pct', inputType: 'expression',
     tokens: [],
-    expression: '$ADNOC.diesel.TMP-001.local_production', type: 'self', status: 'active', enabled: true,
+    expression: '$ADNOC.diesel.local_production', type: 'self', status: 'active', enabled: true,
     updatedAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 8).toISOString(),
   },
   {
@@ -74,7 +74,7 @@ const SEED_FORMULAS: Formula[] = [
     description: 'Combined commercial volume across ADNOC and ENOC diesel forms.',
     templateId: 'TMP-004', returnType: 'kt', inputType: 'expression',
     tokens: [],
-    expression: '$ADNOC.diesel.TMP-004.commercial + $ENOC.diesel.TMP-004.commercial', type: 'cross', status: 'active', enabled: true,
+    expression: '$ADNOC.diesel.commercial + $ENOC.diesel.commercial', type: 'cross', status: 'active', enabled: true,
     updatedAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 9).toISOString(),
   },
   {
@@ -82,7 +82,7 @@ const SEED_FORMULAS: Formula[] = [
     description: 'Draft — ratio of bulk LPG sales to cylinder sales.',
     templateId: 'TMP-003', returnType: 'pct', inputType: 'expression',
     tokens: [],
-    expression: '$ADNOC.lpg.TMP-003.bulk_sales / $ADNOC.lpg.TMP-003.cylinder_sales', type: 'self', status: 'draft', enabled: false,
+    expression: '$ADNOC.lpg.bulk_sales / $ADNOC.lpg.cylinder_sales', type: 'self', status: 'draft', enabled: false,
     updatedAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 30).toISOString(),
   },
   {

@@ -158,6 +158,21 @@ export function FormulaBuilderModal({ nextFormulaId, onClose, onCreate }: Props)
           <button onClick={onClose} aria-label="Close" className="w-8 h-8 grid place-items-center text-neutral-400 hover:text-ink-950 text-lg">✕</button>
         </div>
 
+        {/* Expression Preview — pinned above the scrollable form so it's always
+            visible while you build, no scrolling up and down to check it. */}
+        <div className="px-6 py-3 border-b border-neutral-200 bg-neutral-50/70 shrink-0">
+          <div className="flex items-center gap-1.5 text-[10.5px] font-bold uppercase tracking-wide text-neutral-500 mb-1">
+            Expression Preview
+            <span title="This is a live preview of the formula you're building." className="w-3.5 h-3.5 rounded-full border border-neutral-400 text-neutral-400 text-[9px] grid place-items-center cursor-help">i</span>
+          </div>
+          <div className="w-full px-3 py-2 border border-neutral-300 rounded-md text-[13px] font-mono bg-white min-h-[36px] break-all">
+            {expression ? <span className="text-ink-950">{expression}</span> : <span className="text-neutral-400">Expression will appear here as you build it</span>}
+          </div>
+          {expressionError && (inputType === 'expression' ? expressionText.length > 0 : tokens.length > 0) && (
+            <div className="text-[11px] text-red-600 mt-1">{expressionError}</div>
+          )}
+        </div>
+
         <div className="px-6 py-5 overflow-y-auto flex-1">
           {/* Row 1: Name / Code / Return type */}
           <div className="grid grid-cols-3 gap-4">
@@ -326,7 +341,7 @@ export function FormulaBuilderModal({ nextFormulaId, onClose, onCreate }: Props)
                 Expression Editor <span className="text-red-500">*</span>
               </div>
               <div className="text-[11.5px] text-neutral-500 mb-2.5">
-                Type <code className="px-1 py-0.5 bg-neutral-100 rounded font-mono text-[11px]">$</code> to browse entities, then <code className="px-1 py-0.5 bg-neutral-100 rounded font-mono text-[11px]">.</code> to drill into product → template → field. Type operators (<code className="font-mono">+ - * / == AND OR</code> …) by hand.
+                Type <code className="px-1 py-0.5 bg-neutral-100 rounded font-mono text-[11px]">$</code> to browse entities, then <code className="px-1 py-0.5 bg-neutral-100 rounded font-mono text-[11px]">.</code> to drill into product → field. Type operators (<code className="font-mono">+ - * / == AND OR</code> …) by hand — spacing around them is handled for you.
               </div>
               <ExpressionEditor
                 value={expressionText}
@@ -337,9 +352,9 @@ export function FormulaBuilderModal({ nextFormulaId, onClose, onCreate }: Props)
               <div className="flex items-start gap-1.5 text-[11.5px] text-neutral-500 mt-2.5 bg-neutral-50 border border-neutral-200 rounded-md px-3 py-2">
                 <span className="shrink-0">💡</span>
                 <span>
-                  <span className="font-semibold text-ink-950">Tip:</span> Every reference needs all four segments — entity, product, template, field.
+                  <span className="font-semibold text-ink-950">Tip:</span> Every reference needs three segments — entity, product, field. Template ID is resolved automatically.
                   <br />
-                  <span className="font-semibold text-ink-950">Example:</span> <code className="font-mono">$ADNOC.diesel.TMP-001.imports + $ENOC.diesel.TMP-004.imports</code>
+                  <span className="font-semibold text-ink-950">Example:</span> <code className="font-mono">$ADNOC.diesel.imports + $ENOC.diesel.imports</code>
                 </span>
               </div>
               {!baseTemplateId && <div className="text-[11.5px] text-neutral-400 mt-2">Select a Template ID above first — it determines your "Self" entity.</div>}
@@ -384,21 +399,6 @@ export function FormulaBuilderModal({ nextFormulaId, onClose, onCreate }: Props)
               </div>
             </div>
           )}
-
-          {/* Expression preview */}
-          <div className="mt-4">
-            <div className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wide text-neutral-500 mb-1.5">
-              Expression Preview
-              <span title="This is a live preview of the formula you're building." className="w-3.5 h-3.5 rounded-full border border-neutral-400 text-neutral-400 text-[9px] grid place-items-center cursor-help">i</span>
-            </div>
-            <div className="w-full px-3 py-2.5 border border-neutral-300 rounded-md text-[13px] font-mono bg-neutral-50 min-h-[42px] break-all">
-              {expression ? <span className="text-ink-950">{expression}</span> : <span className="text-neutral-400">Expression will appear here as you build it</span>}
-            </div>
-            <div className="text-[11px] text-neutral-500 mt-1">The formula expression will be validated in the next step.</div>
-            {expressionError && (inputType === 'expression' ? expressionText.length > 0 : tokens.length > 0) && (
-              <div className="text-[11px] text-red-600 mt-1">{expressionError}</div>
-            )}
-          </div>
 
           {/* Description */}
           <div className="mt-4">
