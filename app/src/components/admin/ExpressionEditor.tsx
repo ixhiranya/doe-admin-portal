@@ -4,20 +4,29 @@
 // the top); a '.' after each completed segment walks you one level deeper
 // through the reference path:
 //
-//   $ENTITY . PRODUCT . TEMPLATE . FIELD
+//   $ENTITY . PRODUCT . FIELD
 //
-// e.g. $ADNOC . diesel . TMP-001 . imports
+// e.g. $ADNOC . diesel . imports
 //
-// Operators (+, -, AND, etc.) are typed by hand — there's no button row —
-// validateExpressionString() in lib/formula.ts checks placement.
+// (Template ID is skipped — each entity+product combination only ever has
+// one active template, so it's resolved silently behind the scenes.)
+//
+// Operators (+, -, AND, etc.) and '$' are typed by hand — there's no button
+// row. As you type, exactly one space is auto-enforced immediately before
+// an operator or a new '$' reference (inserted if missing, collapsed if you
+// typed several) so "field+" becomes "field +" and "+ $" stays tidy without
+// you doing it yourself. This only fires while typing forward — deleting
+// characters is left alone so edits/backspacing behave normally.
+// validateExpressionString() in lib/formula.ts checks placement/shape.
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { cn } from '../../lib/utils';
 import {
-  entityByCode, productsForEntity, templatesFor, templateById,
+  entityByCode, productsForEntity, resolveTemplate,
   type Entity,
 } from '../../data/formulaEntities';
+import { EXPRESSION_OPERATORS } from '../../lib/formula';
 
-type SuggestKind = 'entity' | 'product' | 'template' | 'field';
+type SuggestKind = 'entity' | 'product' | 'field';
 
 interface SuggestState {
   kind: SuggestKind;
@@ -38,8 +47,51 @@ interface Props {
   placeholder?: string;
 }
 
-const KIND_ORDER: SuggestKind[] = ['entity', 'product', 'template', 'field'];
-const KIND_TITLE: Record<SuggestKind, string> = { entity: 'Entities', product: 'Products', template: 'Templates', field: 'Fields' };
+const KIND_ORDER: SuggestKind[] = ['entity', 'product', 'field'];
+const KIND_TITLE: Record<SuggestKind, string> = { entity: 'Entities', product: 'Products', field: 'Fields' };
+
+// Is `op` the longest possible operator match, i.e. could typing one more
+// character still extend it into a longer valid operator (e.g. '>' could
+// become '>=')? If so we hold off auto-spacing until it's unambiguous.
+function isExtendable(op: string): boolean {
+  return EXPRESSION_OPERATORS.some((o) => o.length > op.length && o.startsWith(op));
+}
+
+// The longest operator in EXPRESSION_OPERATORS that the text ends with
+// exactly at `caret`, respecting a word boundary before/after for AND/OR.
+function operatorEndingAt(text: string, caret: number): string | null {
+  let best: string | null = null;
+  for (const op of EXPRESSION_OPERATORS) {
+    if (!text.slice(0, caret).endsWith(op)) continue;
+    if (/^[A-Z]/.test(op)) {
+      const startIdx = caret - op.length;
+      const before = text[startIdx - 1];
+      const after = text[caret];
+      if (before !== undefined && /[A-Za-z0-9_]/.test(before)) continue; // e.g. "BRAND" ending in "AND"
+      if (after !== undefined && /[A-Za-z0-9_]/.test(after)) continue;
+    }
+    if (!best || op.length > best.length) best = op;
+  }
+  return best;
+}
+
+// Ensures exactly one space sits immediately before the token that ends at
+// `tokenStart..tokenStart+tokenText.length`, collapsing multiple spaces or
+// inserting one if there were none. Left alone (returns null) when the
+// token is at the very start of the expression, or sits tight against an
+// opening "(" — both are already "correctly" spaced.
+function ensureSingleSpaceBefore(text: string, tokenStart: number, tokenText: string): { text: string; caret: number } | null {
+  let spaceStart = tokenStart;
+  while (spaceStart > 0 && text[spaceStart - 1] === ' ') spaceStart--;
+  const head = text.slice(0, spaceStart);
+  if (head.length === 0) return null;               // start of expression — no space needed
+  if (head.endsWith('(')) return null;                // tight after "(" is fine as typed
+
+  const rest = text.slice(tokenStart + tokenText.length);
+  const rebuilt = `${head} ${tokenText}${rest}`;
+  if (rebuilt === text) return null;                   // already exactly one space
+  return { text: rebuilt, caret: head.length + 1 + tokenText.length };
+}
 
 export function ExpressionEditor({ value, onChange, entities, selfEntityId, placeholder }: Props) {
   const wrapRef = useRef<HTMLDivElement>(null);
@@ -75,15 +127,9 @@ export function ExpressionEditor({ value, onChange, entities, selfEntityId, plac
         .map((p) => ({ code: p.id, label: p.name }));
     }
 
-    if (suggest.kind === 'template') {
-      const productId = suggest.path[1] ?? '';
-      return templatesFor(entity.id, productId)
-        .filter((t) => t.id.toLowerCase().includes(q))
-        .map((t) => ({ code: t.id, label: t.name }));
-    }
-
-    // field
-    const template = templateById(suggest.path[2] ?? '');
+    // field — entity + product together resolve to exactly one active template
+    const productId = suggest.path[1] ?? '';
+    const template = resolveTemplate(entity.id, productId);
     return (template?.fields ?? [])
       .filter((f) => f.id.toLowerCase().includes(q) || f.label.toLowerCase().includes(q))
       .map((f) => ({ code: f.id, label: f.label }));
@@ -92,11 +138,11 @@ export function ExpressionEditor({ value, onChange, entities, selfEntityId, plac
   useEffect(() => { setActiveIdx(0); }, [suggest?.kind, suggest?.query, suggest?.triggerAt]);
 
   // ---- caret-position mirror (so the dropdown appears right under the cursor) ----
-  function measureCaret(pos: number) {
+  function measureCaret(pos: number, text: string = value) {
     const ta = taRef.current, mirror = mirrorRef.current, wrap = wrapRef.current;
     if (!ta || !mirror || !wrap) return { top: 0, left: 0 };
     const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-    mirror.innerHTML = `${esc(value.slice(0, pos))}<span data-caret></span>${esc(value.slice(pos) || ' ')}`;
+    mirror.innerHTML = `${esc(text.slice(0, pos))}<span data-caret></span>${esc(text.slice(pos) || ' ')}`;
     const marker = mirror.querySelector('[data-caret]') as HTMLElement | null;
     if (!marker) return { top: 0, left: 0 };
     return {
@@ -115,7 +161,7 @@ export function ExpressionEditor({ value, onChange, entities, selfEntityId, plac
     const charBeforeWord = text[wordStart - 1];
 
     if (charBeforeWord === '$') {
-      const { top, left } = measureCaret(caret);
+      const { top, left } = measureCaret(caret, text);
       // Replacement region includes the '$' itself — we rebuild "$code." from scratch.
       setSuggest({ kind: 'entity', query: word, triggerAt: wordStart - 1, top, left, path: [] });
       return;
@@ -125,9 +171,9 @@ export function ExpressionEditor({ value, onChange, entities, selfEntityId, plac
       const m = /\$([A-Za-z0-9_]+(?:\.[A-Za-z0-9_-]+)*)\.$/.exec(before.slice(0, wordStart));
       if (m) {
         const path = m[1].split('.');
-        const depth = path.length; // 1 segment done -> suggest 'product', etc.
-        if (depth <= 3) {
-          const { top, left } = measureCaret(caret);
+        const depth = path.length; // 1 segment done -> suggest 'product', 2 done -> 'field'
+        if (depth <= 2) {
+          const { top, left } = measureCaret(caret, text);
           // Replacement region starts right AFTER the '.', which must stay put.
           setSuggest({ kind: KIND_ORDER[depth], query: word, triggerAt: wordStart, top, left, path });
           return;
@@ -138,13 +184,46 @@ export function ExpressionEditor({ value, onChange, entities, selfEntityId, plac
     setSuggest(null);
   }
 
-  function handleChangeText(next: string, caret: number) {
-    onChange(next);
-    requestAnimationFrame(() => analyze(next, caret));
+  // ---- live auto-spacing --------------------------------------------------
+  // Called right after an insertion (never a deletion — see onInput). If the
+  // just-typed character(s) completed an operator or a fresh '$', make sure
+  // exactly one space sits before it. Returns the (possibly) adjusted text
+  // and caret, or null if nothing needed adjusting.
+  function autoSpace(text: string, caret: number): { text: string; caret: number } | null {
+    const justTyped = text[caret - 1];
+
+    if (justTyped === '$') {
+      return ensureSingleSpaceBefore(text, caret - 1, '$');
+    }
+
+    const op = operatorEndingAt(text, caret);
+    if (op && !isExtendable(op)) {
+      return ensureSingleSpaceBefore(text, caret - op.length, op);
+    }
+
+    return null;
   }
 
   function onInput(e: React.ChangeEvent<HTMLTextAreaElement>) {
-    handleChangeText(e.target.value, e.target.selectionStart ?? e.target.value.length);
+    const nextRaw = e.target.value;
+    const caretRaw = e.target.selectionStart ?? nextRaw.length;
+    const isInsertion = nextRaw.length > value.length;
+
+    if (isInsertion) {
+      const spaced = autoSpace(nextRaw, caretRaw);
+      if (spaced) {
+        onChange(spaced.text);
+        requestAnimationFrame(() => {
+          const ta = taRef.current;
+          if (ta) { ta.focus(); ta.setSelectionRange(spaced.caret, spaced.caret); }
+          analyze(spaced.text, spaced.caret);
+        });
+        return;
+      }
+    }
+
+    onChange(nextRaw);
+    requestAnimationFrame(() => analyze(nextRaw, caretRaw));
   }
 
   function reposition() {
@@ -154,8 +233,8 @@ export function ExpressionEditor({ value, onChange, entities, selfEntityId, plac
   }
 
   // Applies the chosen option for whichever segment is currently being
-  // suggested. Entity/product/template chain straight into the next
-  // suggestion; field is the last segment and closes the dropdown.
+  // suggested. Entity/product chain straight into the next suggestion;
+  // field is the last segment and closes the dropdown.
   function applyOption(opt: Option) {
     const ta = taRef.current;
     if (!ta || !suggest) return;
@@ -203,7 +282,7 @@ export function ExpressionEditor({ value, onChange, entities, selfEntityId, plac
           onBlur={() => setTimeout(() => setSuggest(null), 120)}
           rows={5}
           spellCheck={false}
-          placeholder={placeholder ?? "Type '$' for entities, then '.' to drill into product → template → field…"}
+          placeholder={placeholder ?? "Type '$' for entities, then '.' to drill into product → field…"}
           className={cn(
             'relative w-full px-3 py-2.5 border border-neutral-300 rounded-md bg-white resize-y',
             'focus:outline-none focus:ring-2 focus:ring-action-orange/40 focus:border-action-orange',
