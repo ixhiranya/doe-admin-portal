@@ -1,40 +1,40 @@
 // src/types/formula.ts
 // ============================================================================
-// Types for the Formula Configuration admin module — lets an admin define
-// reusable calculation formulas (used across Compliance & PPS) via a visual,
-// token-based expression builder instead of hand-typed code.
+// Types for the Formula Configuration admin module.
 // ============================================================================
 
-export type FormulaReturnType = 'number' | 'percentage' | 'currency' | 'boolean' | 'text';
+export type FormulaStatus = 'active' | 'draft';
 
-export type FormulaStatus = 'active' | 'inactive' | 'draft';
+// Which builder was used to author the expression. 'visual' formulas keep
+// their structured token list; 'expression' formulas are authored as raw
+// text via the code-style editor ($Entity.field + $Entity.field, etc.).
+export type FormulaInputType = 'visual' | 'expression';
 
-// A single field pickable in the builder. `scope` tells you whether it came
-// off the formula's own (self) entity, or a related (cross) entity.
+// A field the builder inserted into the expression.
 export interface FieldRef {
-  entityId: string;      // e.g. 'application', 'company', 'product'
-  entityLabel: string;   // e.g. 'Application', 'Company', 'Product'
-  fieldId: string;       // e.g. 'feeAmount'
-  fieldLabel: string;    // e.g. 'Fee Amount'
-  dataType: 'number' | 'text' | 'date' | 'boolean';
+  fieldId: string;         // e.g. 'imports'
+  fieldLabel: string;      // e.g. 'Imports'
+  entityLabel?: string;    // set only for Cross fields, e.g. 'Grey Market'
 }
 
-// One "piece" of the expression, in the order the user built it.
 export type FormulaToken =
   | { id: string; kind: 'field'; scope: 'self' | 'cross'; field: FieldRef }
   | { id: string; kind: 'operator'; value: string; label: string }
-  | { id: string; kind: 'number'; value: string }
-  | { id: string; kind: 'paren'; value: '(' | ')' };
+  | { id: string; kind: 'number'; value: string };
 
 export interface Formula {
-  id: string;
+  id: string;             // internal key
+  formulaId: string;       // display id, e.g. 'FML-1001'
   name: string;
-  code: string;                 // system identifier, e.g. FML_LATE_FEE_PCT
+  code: string;             // e.g. FML_LATE_RENEWAL_PCT
   description?: string;
-  returnType: FormulaReturnType;
-  tokens: FormulaToken[];
-  expression: string;           // human-readable rendering of tokens, cached
-  dependencies: string[];       // distinct cross-entity labels referenced
+  templateId: string;        // base template this formula is built against
+  returnType: string;         // unit value, e.g. 'kt' — see RETURN_TYPES
+  inputType: FormulaInputType; // 'visual' | 'expression'
+  tokens: FormulaToken[];    // populated for 'visual'; empty for 'expression'
+  expression: string;          // cached human-readable rendering of tokens
+  type: 'self' | 'cross';       // auto-derived from tokens
   status: FormulaStatus;
-  updatedAt: string;            // ISO date string
+  enabled: boolean;              // Actions toggle — off = soft-deleted
+  updatedAt: string;
 }
